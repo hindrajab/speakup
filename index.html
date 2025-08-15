@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>🍉 Speak Up Now!</title>
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --fg: #f5f6f7;
+      --muted: #b8bcc2;
+      --accent: #2563eb;
+      --card: #131418;
+      --border: #26282c;
+      --alert: #000000;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('palestine.jpg') center/cover no-repeat;
+      filter: blur(1px);
+      z-index: 0;
+    }
+    .wrap {
+      position: relative;
+      padding: 20px;
+      border-radius: 15px;
+      width: min(680px, 92vw);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 10px;
+      color: var(--fg);
+    }
+    .flags {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+    .flag {
+      font-size: 44px;
+      line-height: 1;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .flag.active {
+      transform: scale(1.15);
+    }
+    .flag:active {
+      transform: scale(0.98);
+    }
+    .btns {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+    .btn {
+      font-family: "Open Sans", sans-serif;
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      text-transform: uppercase;
+      color: #000;
+      cursor: pointer;
+      border: 3px solid;
+      padding: 0.25em 0.5em;
+      box-shadow: 1px 1px 0 0, 2px 2px 0 0, 3px 3px 0 0, 4px 4px 0 0, 5px 5px 0 0;
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      border-radius: 3px;
+      transition: all 0.25s ease;
+    }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.747);
+    }
+    #btn2 {
+      box-shadow: 1px 1px 0 0 #fff, 2px 2px 0 #fff, 3px 3px 0 #fff, 4px 4px 0 #fff, 5px 5px 0 #fff;
+    }
+    #btn3 {
+      box-shadow: 1px 1px 0 0 #007a3d, 2px 2px 0 #007a3d, 3px 3px 0 #007a3d, 4px 4px 0 #007a3d, 5px 5px 0 #007a3d;
+    }
+    .btn:active {
+      box-shadow: 0 0 0 0;
+      top: 5px;
+      left: 5px;
+    }
+    @media (min-width: 768px) {
+      .btn {
+        padding: 0.25em 0.75em;
+      }
+    }
+    .subtext {
+      font-size: 0.9rem;
+      color: var(--fg);
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px 10px;
+      border-radius: 1px;
+      width: 100%;
+      text-align: center;
+      margin-left: 3px;
+    }
+    .panel {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      margin-left: 3px;
+      border-radius: 0px;
+      background: var(--card);
+    }
+    .panel[style*="display: flex"] {
+      margin-bottom: 5px;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .links a {
+      word-break: break-all;
+      color: var(--fg);
+      text-decoration: underline;
+    }
+    .tag {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .petition-container {
+      background-color: #8B0000;
+      border: 0 solid #E5E7EB;
+      box-sizing: border-box;
+      color: #ffffff;
+      display: flex;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-size: 1rem;
+      font-weight: 700;
+      justify-content: center;
+      line-height: 1.75rem;
+      padding: .75rem 1.65rem;
+      position: relative;
+      text-align: center;
+      text-decoration: none #000000 solid;
+      text-decoration-thickness: auto;
+      width: 100%;
+      max-width: 460px;
+      transform: rotate(-2deg);
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .petition-container:focus {
+      outline: 0;
+    }
+    .petition-container:after {
+      content: '';
+      position: absolute;
+      border: 3px solid #000000;
+      bottom: 4px;
+      left: 4px;
+      width: calc(100% - 1px);
+      height: calc(100% - 1px);
+    }
+    .petition-container:hover:after {
+      bottom: 2px;
+      left: 2px;
+    }
+    @media (min-width: 768px) {
+      .petition-container {
+        padding: .75rem 3rem;
+        font-size: 1.25rem;
+      }
+    }
+    .petition-text {
+      font-size: 0.9rem;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    @media (min-width: 560px) {
+      .btn {
+        font-size: 1.1rem;
+      }
+      .flag {
+        font-size: 52px;
+        margin-bottom: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="flags">
+      <button class="flag active" data-lang="nl" aria-label="Nederlands">🇳🇱</button>
+      <button class="flag" data-lang="en" aria-label="English">🇬🇧</button>
+    </div>
+    <div class="btns">
+      <div class="btn-container">
+        <button id="btn1" class="btn">Laat Je Stem Horen</button>
+        <div class="subtext" id="btn1sub">Stuur een e-mail naar de Nederlandse regering</div>
+      </div>
+      <div class="btn-container">
+        <button id="btn2" class="btn">Doneren</button>
+        <div class="subtext" id="btn2sub">Doneren</div>
+        <div class="panel" id="donationPanel">
+          <div class="links" id="donationLinks"></div>
+        </div>
+      </div>
+      <div class="btn-container">
+        <button id="btn3" class="btn">Bewijs van Genocide op Palestijnen door Israel</button>
+        <div class="subtext" id="btn3sub">Onafhankelijke en neutrale bronnen die het bewijs van de Palestijnse genocide door Israël tonen</div>
+        <div class="panel" id="evidencePanel">
+          <div class="links" id="links"></div>
+        </div>
+      </div>
+      <div class="petition-container" id="petitionBtn">
+        <span id="petitionText" class="petition-text"></span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const ui = {
+      flags: document.querySelectorAll('.flag'),
+      btn1: document.getElementById('btn1'),
+      btn1sub: document.getElementById('btn1sub'),
+      btn2: document.getElementById('btn2'),
+      btn2sub: document.getElementById('btn2sub'),
+      btn3: document.getElementById('btn3'),
+      btn3sub: document.getElementById('btn3sub'),
+      donationPanel: document.getElementById('donationPanel'),
+      evidencePanel: document.getElementById('evidencePanel'),
+      donationLinks: document.getElementById('donationLinks'),
+      evidenceLinks: document.getElementById('links'),
+      petitionText: document.getElementById('petitionText'),
+      petitionBtn: document.getElementById('petitionBtn')
+    };
+    const i18n = {
+      nl: {
+        btn1: 'Stuur een e-mail!',
+        btn1sub: 'Stuur een voorgeschreven e-mail naar alle Tweede Kamerleden en maak je zorgen kenbaar.',
+        btn2: 'Doe een Donatie!',
+        btn2sub: 'Draag bij met een donatie voor levensreddende hulp zoals water en voedselpakketten.',
+        btn3: 'Bronnen',
+        btn3sub: 'Onafhankelijke en neutrale bronnen die het bewijs van de Palestijnse genocide door Israël tonen.',
+        petition: 'De overheid wil met een nieuwe wet kritische geluiden makkelijker als terrorisme bestempelen. (Klik hier om tegengeluid te geven!)',
+        subject: 'STOP het Geweld',
+        body: `Beste Leden van de Tweede Kamer en Ministers van Nederland,
+De aanhoudende crisis in Gaza vereist uw onmiddellijke aandacht en actie. Als vertegenwoordigers van een natie die zich inzet voor mensenrechten en internationaal recht, bekleedt u geprivilegieerde en machtige posities om een verschil te maken. Wij roepen u dringend op om een onmiddellijk einde te eisen aan het geweld in Gaza, dat enorm lijden en verlies van mensenlevens heeft veroorzaakt. Daarnaast smeken wij u om te pleiten voor uitgebreide sancties tegen Israël om verdere escalatie te stoppen en verantwoording te waarborgen. Uw leiderschap is cruciaal om rechtvaardigheid te handhaven, onschuldige levens te beschermen en de toewijding van Nederland aan wereldwijde vrede en solidariteit te versterken. Handel nu om verdere tragedie te voorkomen.`
+      },
+      en: {
+        btn1: 'Send an Email!',
+        btn1sub: 'Send a pre-written email to all members of the Dutch Parliament to express your concerns.',
+        btn2: 'Make a Donation!',
+        btn2sub: 'Make a donation for life-saving aid such as water and food packages.',
+        btn3: 'Sources',
+        btn3sub: 'Independent and neutral sources showing evidence of the ongoing genocide of Palestinians by Israel.',
+        petition: 'The Dutch government wants to introduce new law to label critical voices as terrorism more easily. (Click here to oppose it!)',
+        subject: 'STOP the violence',
+        body: `Dear Members of the Tweede Kamer and Ministers of the Netherlands,
+The ongoing crisis in Gaza demands your immediate attention and action. As representatives of a nation committed to human rights and international law, you hold privileged and powerful positions to make a difference. We urgently call on you to demand an immediate cessation of the violence in Gaza, which has caused immense suffering and loss of life. Furthermore, nadere escalatie te stoppen en verantwoording te waarborgen. Uw leiderschap is cruciaal om rechtvaardigheid te handhaven, onschuldige levens te beschermen en de toewijding van Nederland aan wereldwijde vrede en solidariteit te versterken. Handel nu om verdere tragedie te voorkomen.`
+      }
+    };
+    const recipients = [
+      'm.aardema@tweedekamer.nl', 't.aartsen@tweedekamer.nl', 'i.elabassi@tweedekamer.nl',
+      's.vanbaarle@tweedekamer.nl', 'm.bamenga@tweedekamer.nl', 't.baudet@tweedekamer.nl',
+      'b.becker@tweedekamer.nl', 's.beckerman@tweedekamer.nl', 'm.debeer@tweedekamer.nl',
+      'h.bevers@tweedekamer.nl', 'm.bikker@tweedekamer.nl', 'b.bikkers@tweedekamer.nl',
+      'r.blaauw@tweedekamer.nl', 'h.bontenbal@tweedekamer.nl', 'd.boomsma@tweedekamer.nl',
+      'm.boon@tweedekamer.nl', 'v.vandenborn@tweedekamer.nl', 'm.bosma@tweedekamer.nl',
+      'd.boswijk@tweedekamer.nl', 'w.boutkan@tweedekamer.nl', 'l.bromet@tweedekamer.nl',
+      'f.bruyning@tweedekamer.nl', 'e.vanderburg@tweedekamer.nl', 'm.buijsse@tweedekamer.nl',
+      'j.bushoff@tweedekamer.nl', 't.vancampen@tweedekamer.nl', 'd.ceder@tweedekamer.nl',
+      'g.chakor@tweedekamer.nl', 'r.claassen@tweedekamer.nl', 'p.crijns@tweedekamer.nl',
+      'l.dassen@tweedekamer.nl', 'm.deen@tweedekamer.nl', 'r.dekker@tweedekamer.nl',
+      't.vandijck@tweedekamer.nl', 'j.dijk@tweedekamer.nl', 'd.vandijk@tweedekamer.nl',
+      'e.vandijk@tweedekamer.nl', 'i.vandijk@tweedekamer.nl', 'o.vandijk@tweedekamer.nl',
+      's.dobbe@tweedekamer.nl', 'r.dral@tweedekamer.nl', 'j.eerdmans@tweedekamer.nl',
+      'w.vaneijk@tweedekamer.nl', 'u.ellian@tweedekamer.nl', 'd.ergin@tweedekamer.nl',
+      's.erkens@tweedekamer.nl', 'e.esser@tweedekamer.nl', 'c.faddegon@tweedekamer.nl',
+      'a.flach@tweedekamer.nl', 'g.gabriels@tweedekamer.nl', 'd.graus@tweedekamer.nl',
+      'p.grinwis@tweedekamer.nl', 'p.degroot@tweedekamer.nl', 'm.haage@tweedekamer.nl',
+      'p.vanhaasen@tweedekamer.nl', 'j.hartsuiker@tweedekamer.nl', 'e.heinen@tweedekamer.nl',
+      'a.heite@tweedekamer.nl', 'l.helder@tweedekamer.nl', 'r.hertzberger@tweedekamer.nl',
+      'h.heutink@tweedekamer.nl', 'e.vanhijum@tweedekamer.nl', 'j.vandenhil@tweedekamer.nl',
+      'd.hirsch@tweedekamer.nl', 'p.vanderhoeff@tweedekamer.nl', 'h.holman@tweedekamer.nl',
+      'h.dhoop@tweedekamer.nl', 'p.vanhouwelingen@tweedekamer.nl', 'f.idsinga@tweedekamer.nl',
+      'd.jansen@tweedekamer.nl', 'f.jansen@tweedekamer.nl', 'r.jetten@tweedekamer.nl',
+      'l.dejong@tweedekamer.nl', 'a.joseph@tweedekamer.nl', 'i.kahraman@tweedekamer.nl',
+      'r.kamminga@tweedekamer.nl', 'b.kathmann@tweedekamer.nl', 'b.vankent@tweedekamer.nl',
+      'a.kisteman@tweedekamer.nl', 'j.klaver@tweedekamer.nl', 'm.koekkoek@tweedekamer.nl',
+      'w.koops@tweedekamer.nl', 'a.kops@tweedekamer.nl', 'd.dekort@tweedekamer.nl',
+      'rvd.pers.kh@minaz.nl', 'info@minienw.nl', 'info@minszw.nl', 'info@minbzk.nl',
+      'info@minjenv.nl', 'info@minfin.nl', 'info@minbuza.nl', 'info@mindef.nl', 'info@minez.nl'
+    ];
+    const sources = {
+      nl: [
+        { name: '↗ Human Rights Watch Rapport', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
+        { name: '↗ OHCHR Persbericht', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
+        { name: '↗ Amnesty International Rapport', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
+        { name: '↗ AFSC Israelische Schendingen', url: 'https://afsc.org/israeli-violations' },
+        { name: '↗ Artsen zonder Grenzen Rapport', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
+        { name: '↗ Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
+      ],
+      en: [
+        { name: '↗ Human Rights Watch Report', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
+        { name: '↗ OHCHR Press Release', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
+        { name: '↗ Amnesty International Report', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
+        { name: '↗ AFSC Israeli Violations', url: 'https://afsc.org/israeli-violations' },
+        { name: '↗ Doctors Without Borders Report', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
+        { name: '↗ Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
+      ]
+    };
+    const donations = {
+      nl: [
+        { name: 'Steun United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
+        { name: 'Steun Fatima Alqolaq en haar gezin', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
+        { name: 'Steun Adel uit Gaza', url: 'https://gofund.me/b57bcc02' },
+        { name: 'Steun Munir Al-Omari uit Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3A62c0271d-a365-421c-a470-0382aa61f532&ts=1755297599' },
+        { name: 'Steun Anas Abu Abdo uit Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
+        { name: 'Steun Adham Al Ajla en zijn gezin', url: 'https://www.gofundme.com/f/alhrb-la-ttokf-samot-an-bkyt-oaaaylty-fy-ghz?attribution_id=sl:2dadaff7-904a-4d8b-b476-c8c7a81c8883&utm_campaign=p_lico+share-sheet&utm_medium=copy_link&utm_source=customer' },
+        { name: 'Steun kleine Samia en Ameer uit Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future?attribution_id=sl:b5cd423c-103b-4b08-9aee-5b02b29480d9&utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=qr_code' },
+        { name: 'Steun Zakaria Issa en zijn gezin', url: 'https://www.gofundme.com/f/help-me-and-my-family-survive-this-crazy-war?attribution_id=sl:68ca25d5-4af8-4a03-b00f-ed9311bd058d&lang=en_US&ts=1748183392&utm_campaign=man_sharesheet_dash&utm_medium=customer&utm_source=copy_link' },
+        { name: 'Steun Palestinians in hun tijd van nood', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
+      ],
+      en: [
+        { name: 'Support United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
+        { name: 'Help Out Fatima Alqolaq and her family', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
+        { name: 'Help Out Adel from Gaza', url: 'https://gofund.me/b57bcc02' },
+        { name: 'Help Out Munir Al-Omari from Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3A62c0271d-a365-421c-a470-0382aa61f532&ts=1755297599' },
+        { name: 'Help Out Anas Abu Abdo from Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
+        { name: 'Help Out Adham Al Ajla and his family', url: 'https://www.gofundme.com/f/alhrb-la-ttokf-samot-an-bkyt-oaaaylty-fy-ghz?attribution_id=sl:2dadaff7-904a-4d8b-b476-c8c7a81c8883&utm_campaign=p_lico+share-sheet&utm_medium=copy_link&utm_source=customer' },
+        { name: 'Help Out little Samia and Ameer from Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future?attribution_id=sl:b5cd423c-103b-4b08-9aee-5b02b29480d9&utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=qr_code' },
+        { name: 'Help Out Zakaria Issa and his family', url: 'https://www.gofundme.com/f/help-me-and-my-family-survive-this-crazy-war?attribution_id=sl:68ca25d5-4af8-4a03-b00f-ed9311bd058d&lang=en_US&ts=1748183392&utm_campaign=man_sharesheet_dash&utm_medium=customer&utm_source=copy_link' },
+        { name: 'Support Palestinians in their time of crisis', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
+      ]
+    };
+    let lang = 'nl';
+    function renderLinks(container, items) {
+      container.innerHTML = '';
+      items.forEach(item => {
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = item.name;
+        container.appendChild(a);
+      });
+    }
+    function applyLang() {
+      const t = i18n[lang];
+      ui.btn1.textContent = t.btn1;
+      ui.btn1sub.textContent = t.btn1sub;
+      ui.btn2.textContent = t.btn2;
+      ui.btn2sub.textContent = t.btn2sub;
+      ui.btn3.textContent = t.btn3;
+      ui.btn3sub.textContent = t.btn3sub;
+      ui.petitionText.innerHTML = t.petition;
+      document.documentElement.lang = lang;
+      renderLinks(ui.donationLinks, donations[lang]);
+      renderLinks(ui.evidenceLinks, sources[lang]);
+    }
+    function openMail() {
+      const t = i18n[lang];
+      const to = recipients.join(',');
+      const bcc = 'hindrajab1948@gmail.com';
+      const subject = encodeURIComponent(t.subject);
+      const body = encodeURIComponent(t.body);
+      const href = `mailto:${to}?bcc=${encodeURIComponent(bcc)}&subject=${subject}&body=${body}`;
+      const a = document.createElement('a');
+      a.href = href;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    ui.petitionBtn.addEventListener('click', () => {
+      window.open('https://internetconsultatie.nl/terrorismeverheerlijking/b1', '_blank', 'noopener');
+    });
+    ui.flags.forEach(btn => {
+      btn.addEventListener('click', () => {
+        ui.flags.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        lang = btn.dataset.lang;
+        applyLang();
+      });
+    });
+    ui.btn1.addEventListener('click', openMail);
+    ui.btn2.addEventListener('click', () => {
+      const isVisible = ui.donationPanel.style.display === 'flex';
+      ui.donationPanel.style.display = isVisible ? 'none' : 'flex';
+      ui.btn2sub.style.display = isVisible ? 'block' : 'none';
+    });
+    ui.btn3.addEventListener('click', () => {
+      const isVisible = ui.evidencePanel.style.display === 'flex';
+      ui.evidencePanel.style.display = isVisible ? 'none' : 'flex';
+      ui.btn3sub.style.display = isVisible ? 'block' : 'none';
+    });
+    applyLang();
+  </script>
+</body>
+</html>
