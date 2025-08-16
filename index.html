@@ -164,58 +164,6 @@
       font-size: 0.9rem;
       color: var(--muted);
     }
-    .petition-container {
-      background-color: #8B0000;
-      border: 0 solid #E5E7EB;
-      box-sizing: border-box;
-      color: #ffffff;
-      display: flex;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      font-size: 1rem;
-      font-weight: 700;
-      justify-content: center;
-      line-height: 1.75rem;
-      padding: .75rem 1.65rem;
-      position: relative;
-      text-align: center;
-      text-decoration: none #000000 solid;
-      text-decoration-thickness: auto;
-      width: 100%;
-      max-width: 460px;
-      transform: rotate(-2deg);
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-    .petition-container:focus {
-      outline: 0;
-    }
-    .petition-container:after {
-      content: '';
-      position: absolute;
-      border: 3px solid #000000;
-      bottom: 4px;
-      left: 4px;
-      width: calc(100% - 1px);
-      height: calc(100% - 1px);
-    }
-    .petition-container:hover:after {
-      bottom: 2px;
-      left: 2px;
-    }
-    @media (min-width: 768px) {
-      .petition-container {
-        padding: .75rem 3rem;
-        font-size: 1.25rem;
-      }
-    }
-    .petition-text {
-      font-size: 0.9rem;
-      color: #ffffff;
-      font-weight: bold;
-    }
     @media (min-width: 560px) {
       .btn {
         font-size: 1.1rem;
@@ -224,35 +172,6 @@
         font-size: 52px;
         margin-bottom: 5px;
       }
-    }
-    .button-89 {
-      --b: 3px;
-      --s: .45em;
-      --color: #ffffff;
-      padding: calc(.5em + var(--s)) calc(.9em + var(--s));
-      color: var(--color);
-      --_p: var(--s);
-      background: conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--color) 0) var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
-      transition: .3s linear, color 0s, background-color 0s;
-      outline: var(--b) solid #0000;
-      outline-offset: .6em;
-      font-size: 14px;
-      border: 0;
-      margin-top: 1px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      background-color: #8B0000;
-    }
-    .button-89:hover,
-    .button-89:focus-visible {
-      --_p: 0px;
-      outline-color: var(--color);
-      outline-offset: .05em;
-    }
-    .button-89:active {
-      background: var(--color);
-      color: #fff;
     }
   </style>
 </head>
@@ -295,10 +214,7 @@
       donationPanel: document.getElementById('donationPanel'),
       evidencePanel: document.getElementById('evidencePanel'),
       donationLinks: document.getElementById('donationLinks'),
-      evidenceLinks: document.getElementById('links'),
-      petitionText: document.getElementById('petitionText'),
-      petitionBtn: document.getElementById('petitionBtn'),
-      copyBtn: document.getElementById('copyBtn')
+      evidenceLinks: document.getElementById('links')
     };
     const i18n = {
       nl: {
@@ -308,8 +224,6 @@
         btn2sub: 'Draag bij met een donatie voor levensreddende hulp zoals water en voedselpakketten.',
         btn3: 'Bronnen',
         btn3sub: 'Onafhankelijke en neutrale bronnen die het bewijs van de Palestijnse genocide door Israël tonen.',
-        petition: 'De overheid wil met een nieuwe wet kritische geluiden makkelijker als terrorisme bestempelen. (Klik hier om tegengeluid te geven!)',
-        copyBtn: 'Kopieer Bezwaarschrift voor Wetsvoorstel',
         subject: 'STOP het Geweld',
         body: `Beste Leden van de Tweede Kamer en Ministers van Nederland,
 De aanhoudende crisis in Gaza vereist uw onmiddellijke aandacht en actie. Als vertegenwoordigers van een natie die zich inzet voor mensenrechten en internationaal recht, bekleedt u geprivilegieerde en machtige posities om een verschil te maken. Wij roepen u dringend op om een onmiddellijk einde te eisen aan het geweld in Gaza, dat enorm lijden en verlies van mensenlevens heeft veroorzaakt. Daarnaast smeken wij u om te pleiten voor uitgebreide sancties tegen Israël om verdere escalatie te stoppen en verantwoording te waarborgen. Uw leiderschap is cruciaal om rechtvaardigheid te handhaven, onschuldige levens te beschermen en de toewijding van Nederland aan wereldwijde vrede en solidariteit te versterken. Handel nu om verdere tragedie te voorkomen.`
@@ -321,24 +235,11 @@ De aanhoudende crisis in Gaza vereist uw onmiddellijke aandacht en actie. Als ve
         btn2sub: 'Make a donation for life-saving aid such as water and food packages.',
         btn3: 'Sources',
         btn3sub: 'Independent and neutral sources showing evidence of the ongoing genocide of Palestinians by Israel.',
-        petition: 'The Dutch government wants to introduce new law to label critical voices as terrorism more easily. (Click here to oppose it!)',
-        copyBtn: 'Copy Objection Letter for Legislative Proposal',
         subject: 'STOP the violence',
         body: `Dear Members of the Tweede Kamer and Ministers of the Netherlands,
 The ongoing crisis in Gaza demands your immediate attention and action. As representatives of a nation committed to human rights and international law, you hold privileged and powerful positions to make a difference. We urgently call on you to demand an immediate cessation of the violence in Gaza, which has caused immense suffering and loss of life. Furthermore, we urge you to advocate for comprehensive sanctions against Israel to halt further escalation and ensure accountability. Your leadership is crucial to uphold justice, protect innocent lives, and reinforce the Netherlands' commitment to global peace and solidarity. Act now to prevent further tragedy.`
       }
     };
-    const objectionText = `Ik maak ernstig bezwaar tegen het voorgestelde wetsvoorstel inzake de strafbaarstelling van het verheerlijken van terrorisme en openbare steunbetuiging aan terroristische organisaties. Hoewel het doel – het tegengaan van radicalisering en geweld – op zichzelf legitiem is, vormt dit voorstel een ernstige aantasting van de vrijheid van meningsuiting (artikel 7 Grondwet, artikel 10 EVRM) en ondermijnt het de fundamenten van onze democratische rechtsstaat.
-
-Het voorstel hanteert vage en subjectieve begrippen zoals “verheerlijking” en “steunbetuiging”, zonder heldere juridische definities of toetsingskaders. Dit creëert grote ruimte voor willekeurige interpretatie en strafvervolging van uitingen die geen enkele directe link hebben met aanzetten tot geweld of het plegen van strafbare feiten.
-
-De jurisprudentie van het Europees Hof voor de Rechten van de Mens (o.a. Handyside v. UK, 1976; Zana v. Turkey, 1997) benadrukt dat vrijheid van meningsuiting niet alleen geldt voor populaire of onschuldige meningen, maar juist ook voor uitingen die “shockeren, verontrusten of kwetsen”. Dat is essentieel voor een pluriforme, open samenleving.
-
-Dit wetsvoorstel opent de deur naar strafrechtelijke vervolging van burgers en organisaties die zich uitspreken over internationale conflicten, onderdrukking, of strijd tegen koloniale en autoritaire regimes. Het risico is reëel dat bepaalde bewegingen, die door buitenlandse of binnenlandse actoren als ‘terroristisch’ worden bestempeld, geen mogelijkheid meer hebben om zich via publiek debat te verdedigen of gehoord te worden in Nederland. Dat betekent dat er eenzijdige beeldvorming ontstaat, die politieke solidariteit criminaliseert.
-
-Het voorstel lijkt niet ingegeven door rechtsstatelijke overwegingen, maar past binnen een breder patroon van rechts-nationalistische wetsvoorstellen die fundamentele vrijheden inperken onder het mom van veiligheid. In een gezonde democratie mag de staat geen kritiek criminaliseren, ook niet wanneer deze als ongemakkelijk of polariserend wordt ervaren.
-
-Ik roep de wetgever op om dit wetsvoorstel in te trekken of aanzienlijk te herzien, en de grondrechten van burgers boven partijpolitieke sentimenten te stellen. De bescherming van vrijheid van meningsuiting is geen luxe, maar een noodzakelijke voorwaarde voor een weerbare democratie.`;
     const recipients = [
       'm.aardema@tweedekamer.nl', 't.aartsen@tweedekamer.nl', 'i.elabassi@tweedekamer.nl',
       's.vanbaarle@tweedekamer.nl', 'm.bamenga@tweedekamer.nl', 't.baudet@tweedekamer.nl',
@@ -433,8 +334,6 @@ Ik roep de wetgever op om dit wetsvoorstel in te trekken of aanzienlijk te herzi
       ui.btn2sub.textContent = t.btn2sub;
       ui.btn3.textContent = t.btn3;
       ui.btn3sub.textContent = t.btn3sub;
-      ui.petitionText.innerHTML = t.petition;
-      ui.copyBtn.textContent = t.copyBtn;
       document.documentElement.lang = lang;
       renderLinks(ui.donationLinks, donations[lang]);
       renderLinks(ui.evidenceLinks, sources[lang]);
@@ -453,16 +352,6 @@ Ik roep de wetgever op om dit wetsvoorstel in te trekken of aanzienlijk te herzi
       a.click();
       a.remove();
     }
-    function copyObjection() {
-      navigator.clipboard.writeText(objectionText).then(() => {
-        alert(lang === 'nl' ? 'Bezwaarschrift gekopieerd!' : 'Objection letter copied!');
-      }).catch(() => {
-        alert(lang === 'nl' ? 'Fout bij het kopiëren!' : 'Error copying!');
-      });
-    }
-    ui.petitionBtn.addEventListener('click', () => {
-      window.open('https://internetconsultatie.nl/terrorismeverheerlijking/b1', '_blank', 'noopener');
-    });
     ui.flags.forEach(btn => {
       btn.addEventListener('click', () => {
         ui.flags.forEach(b => b.classList.remove('active'));
@@ -482,9 +371,7 @@ Ik roep de wetgever op om dit wetsvoorstel in te trekken of aanzienlijk te herzi
       ui.evidencePanel.style.display = isVisible ? 'none' : 'flex';
       ui.btn3sub.style.display = isVisible ? 'block' : 'none';
     });
-    ui.copyBtn.addEventListener('click', copyObjection);
     applyLang();
   </script>
 </body>
 </html>
-
