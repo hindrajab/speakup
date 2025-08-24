@@ -28,7 +28,7 @@
       justify-content: center;
       min-height: 100vh;
       position: relative;
-      overflow: hidden;
+      overflow: auto;
     }
     body::before {
       content: "";
@@ -40,7 +40,7 @@
     }
     .wrap {
       position: relative;
-      padding: 20px;
+      padding: 40px 20px;
       border-radius: 15px;
       width: min(680px, 92vw);
       display: flex;
@@ -363,14 +363,21 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
       const isVisible = ui.donationPanel.style.display === 'flex';
       ui.donationPanel.style.display = isVisible ? 'none' : 'flex';
       ui.btn2sub.style.display = isVisible ? 'block' : 'none';
+      if (!isVisible) {
+        ui.evidencePanel.style.display = 'none';
+        ui.btn3sub.style.display = 'block';
+      }
     });
     ui.btn3.addEventListener('click', () => {
       const isVisible = ui.evidencePanel.style.display === 'flex';
       ui.evidencePanel.style.display = isVisible ? 'none' : 'flex';
       ui.btn3sub.style.display = isVisible ? 'block' : 'none';
+      if (!isVisible) {
+        ui.donationPanel.style.display = 'none';
+        ui.btn2sub.style.display = 'block';
+      }
     });
     applyLang();
   </script>
 </body>
 </html>
-
