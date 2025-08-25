@@ -19,14 +19,14 @@
     }
     html, body {
       height: 100%;
+      min-height: 120vh;
     }
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      min-height: 100vh;
       position: relative;
       overflow: auto;
     }
@@ -35,12 +35,15 @@
       position: absolute;
       inset: 0;
       background: url('palestine.jpg') center/cover no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
       filter: blur(1px);
       z-index: 0;
     }
     .wrap {
       position: relative;
-      padding: 40px 20px;
+      padding: 40px 20px 100px 20px;
       border-radius: 15px;
       width: min(680px, 92vw);
       display: flex;
@@ -164,6 +167,102 @@
       font-size: 0.9rem;
       color: var(--muted);
     }
+    .social-links {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    .social-link:hover {
+      transform: scale(1.05);
+    }
+    .social-link:active {
+      transform: scale(0.98);
+    }
+    .social-icon {
+      width: 24px;
+      height: 24px;
+    }
+    .social-text {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+    }
+    .at-symbol {
+      color: var(--muted);
+    }
+    .panel-title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--fg);
+      text-align: center;
+      position: relative;
+      margin: 10px 0;
+      padding: 0 10px;
+    }
+    .panel-title::before,
+    .panel-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: var(--fg);
+    }
+    .panel-title::before {
+      left: 0;
+    }
+    .panel-title::after {
+      right: 0;
+    }
+    .section-title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--fg);
+      text-align: center;
+      position: relative;
+      margin: 10px 0;
+      padding: 0 10px;
+    }
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: var(--fg);
+    }
+    .section-title::before {
+      left: 0;
+    }
+    .section-title::after {
+      right: 0;
+    }
+    .section-text {
+      font-size: 0.9rem;
+      color: var(--fg);
+      text-align: left;
+      margin: 5px 0;
+    }
+    @media (max-width: 560px) {
+      .panel-title::before,
+      .panel-title::after,
+      .section-title::before,
+      .section-title::after {
+        width: 30%;
+      }
+    }
     @media (min-width: 560px) {
       .btn {
         font-size: 1.1rem;
@@ -171,6 +270,13 @@
       .flag {
         font-size: 52px;
         margin-bottom: 5px;
+      }
+      .social-icon {
+        width: 28px;
+        height: 28px;
+      }
+      .social-link {
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -185,6 +291,9 @@
       <div class="btn-container">
         <button id="btn1" class="btn">Laat Je Stem Horen</button>
         <div class="subtext" id="btn1sub">Stuur een e-mail naar de Nederlandse regering</div>
+        <div class="panel" id="emailPanel">
+          <div class="links" id="emailLinks"></div>
+        </div>
       </div>
       <div class="btn-container">
         <button id="btn2" class="btn">Doneren</button>
@@ -194,12 +303,26 @@
         </div>
       </div>
       <div class="btn-container">
-        <button id="btn3" class="btn">Bewijs van Genocide op Palestijnen door Israel</button>
-        <div class="subtext" id="btn3sub">Onafhankelijke en neutrale bronnen die het bewijs van de Palestijnse genocide door Israël tonen</div>
+        <button id="btn3" class="btn">Referenties & Bronnen</button>
         <div class="panel" id="evidencePanel">
-          <div class="links" id="links"></div>
+          <div class="panel-title" id="panelTitle"></div>
+          <div class="section-text" id="referenceText"></div>
+          <div class="links" id="referenceLinks"></div>
+          <div class="section-title" id="sectionTitle"></div>
+          <div class="section-text" id="sourceText"></div>
+          <div class="links" id="evidenceLinks"></div>
         </div>
       </div>
+    </div>
+    <div class="social-links">
+      <a href="https://www.instagram.com/hindrajabscar" target="_blank" rel="noopener" class="social-link" aria-label="Follow hindrajabscar on Instagram">
+        <img src="https://static.vecteezy.com/system/resources/previews/018/930/415/non_2x/instagram-logo-instagram-icon-transparent-free-png.png" alt="Instagram icon" class="social-icon">
+        <span class="social-text"><span class="at-symbol">@</span>hindrajabscar</span>
+      </a>
+      <a href="https://www.instagram.com/the_dutchrevert" target="_blank" rel="noopener" class="social-link" aria-label="Follow the_dutchrevert on Instagram">
+        <img src="https://static.vecteezy.com/system/resources/previews/018/930/415/non_2x/instagram-logo-instagram-icon-transparent-free-png.png" alt="Instagram icon" class="social-icon">
+        <span class="social-text"><span class="at-symbol">@</span>the_dutchrevert</span>
+      </a>
     </div>
   </div>
   <script>
@@ -210,34 +333,60 @@
       btn2: document.getElementById('btn2'),
       btn2sub: document.getElementById('btn2sub'),
       btn3: document.getElementById('btn3'),
-      btn3sub: document.getElementById('btn3sub'),
+      panelTitle: document.getElementById('panelTitle'),
+      referenceText: document.getElementById('referenceText'),
+      sectionTitle: document.getElementById('sectionTitle'),
+      sourceText: document.getElementById('sourceText'),
+      emailPanel: document.getElementById('emailPanel'),
       donationPanel: document.getElementById('donationPanel'),
       evidencePanel: document.getElementById('evidencePanel'),
+      emailLinks: document.getElementById('emailLinks'),
       donationLinks: document.getElementById('donationLinks'),
-      evidenceLinks: document.getElementById('links')
+      referenceLinks: document.getElementById('referenceLinks'),
+      evidenceLinks: document.getElementById('evidenceLinks')
     };
     const i18n = {
       nl: {
         btn1: 'Stuur een e-mail!',
-        btn1sub: 'Stuur een voorgeschreven e-mail naar alle Tweede Kamerleden en maak je zorgen kenbaar.',
+        btn1sub: 'Stuur een voorgeschreven e-mail tegen geweld of wetsvoorstellen die onze rechten beperken.',
         btn2: 'Doe een Donatie!',
-        btn2sub: 'Draag bij met een donatie voor levensreddende hulp zoals water en voedselpakketten.',
-        btn3: 'Bronnen',
-        btn3sub: 'Onafhankelijke en neutrale bronnen die het bewijs van de Palestijnse genocide door Israël tonen.',
+        btn2sub: 'Draag bij met een donatie voor acties of levensreddende hulp zoals water en voedselpakketten.',
+        btn3: 'Referenties & Bronnen',
+        panelTitle: 'Referenties',
+        referenceText: 'Informatie omtrent situaties die actie vereisen',
+        sectionTitle: 'Bronnen',
+        sourceText: 'Onafhankelijke en neutrale bronnen die bewijs leveren van de Palestijnse genocide door Israël',
         subject: 'STOP het Geweld',
         body: `Beste Leden van de Tweede Kamer en Ministers van Nederland,
-De aanhoudende crisis in Gaza vereist uw onmiddellijke aandacht en actie. Als vertegenwoordigers van een natie die zich inzet voor mensenrechten en internationaal recht, bekleedt u geprivilegieerde en machtige posities om een verschil te maken. Wij roepen u dringend op om een onmiddellijk einde te eisen aan het geweld in Gaza, dat enorm lijden en verlies van mensenlevens heeft veroorzaakt. Daarnaast smeken wij u om te pleiten voor uitgebreide sancties tegen Israël om verdere escalatie te stoppen en verantwoording te waarborgen. Uw leiderschap is cruciaal om rechtvaardigheid te handhaven, onschuldige levens te beschermen en de toewijding van Nederland aan wereldwijde vrede en solidariteit te versterken. Handel nu om verdere tragedie te voorkomen.`
+De aanhoudende crisis in Gaza vereist uw onmiddellijke aandacht en actie. Als vertegenwoordigers van een natie die zich inzet voor mensenrechten en internationaal recht, bekleedt u geprivilegieerde en machtige posities om een verschil te maken. Wij roepen u dringend op om een onmiddellijk einde te eisen aan het geweld in Gaza, dat enorm lijden en verlies van mensenlevens heeft veroorzaakt. Daarnaast smeken wij u om te pleiten voor uitgebreide sancties tegen Israël om verdere escalatie te stoppen en verantwoording te waarborgen. Uw leiderschap is cruciaal om rechtvaardigheid te handhaven, onschuldige levens te beschermen en de toewijding van Nederland aan wereldwijde vrede en solidariteit te versterken. Handel nu om verdere tragedie te voorkomen.`,
+        emailLinks: [
+          { name: 'Stuur een voorgeschreven "STOP het geweld" mail naar de Tweede Kamer', action: 'sendViolenceEmail' },
+          { name: 'Stuur een voorgeschreven mail tegen het "Chat Control" wetsvoorstel naar het Europese Parlement', action: 'sendChatControlEmail' }
+        ],
+        referenceLinks: [
+          { name: 'Informatie omtrent het "Chat Control" Wetsvoorstel', url: 'https://eenvandaag.avrotros.nl/artikelen/toenemende-steun-voor-eu-wetsvoorstel-chat-control-tegen-online-kindermisbruik-maar-ook-zorgen-controleren-van-prive-appjes-is-ernstige-privacyschending-161053' }
+        ]
       },
       en: {
         btn1: 'Send an Email!',
-        btn1sub: 'Send a pre-written email to all members of the Dutch Parliament to express your concerns.',
+        btn1sub: 'Send a pre-written email against violence or legislative proposals that limit our rights.',
         btn2: 'Make a Donation!',
-        btn2sub: 'Make a donation for life-saving aid such as water and food packages.',
-        btn3: 'Sources',
-        btn3sub: 'Independent and neutral sources showing evidence of the ongoing genocide of Palestinians by Israel.',
+        btn2sub: 'Make a donation for demonstrations or life-saving aid such as water and food packages.',
+        btn3: 'References & Sources',
+        panelTitle: 'References',
+        referenceText: 'Information regarding situations that need action',
+        sectionTitle: 'Sources',
+        sourceText: 'Independent and neutral sources proving the Palestinian Genocide by Israel',
         subject: 'STOP the violence',
         body: `Dear Members of the Tweede Kamer and Ministers of the Netherlands,
-The ongoing crisis in Gaza demands your immediate attention and action. As representatives of a nation committed to human rights and international law, you hold privileged and powerful positions to make a difference. We urgently call on you to demand an immediate cessation of the violence in Gaza, which has caused immense suffering and loss of life. Furthermore, we urge you to advocate for comprehensive sanctions against Israel to halt further escalation and ensure accountability. Your leadership is crucial to uphold justice, protect innocent lives, and reinforce the Netherlands' commitment to global peace and solidarity. Act now to prevent further tragedy.`
+The ongoing crisis in Gaza demands your immediate attention and action. As representatives of a nation committed to human rights and international law, you hold privileged and powerful positions to make a difference. We urgently call on you to demand an immediate cessation of the violence in Gaza, which has caused immense suffering and loss of life. Furthermore, we urge you to advocate for comprehensive sanctions against Israel to halt further escalation and ensure accountability. Your leadership is crucial to uphold justice, protect innocent lives, and reinforce the Netherlands' commitment to global peace and solidarity. Act now to prevent further tragedy.`,
+        emailLinks: [
+          { name: 'Send a pre-written "STOP the violence" email to the Dutch Parliament', action: 'sendViolenceEmail' },
+          { name: 'Send a pre-written email against the "Chat Control" bill to the European Parliament', action: 'sendChatControlEmail' }
+        ],
+        referenceLinks: [
+          { name: 'Information regarding "Chat Control" Legislative Bill', url: 'https://eu.ci/eu-chat-control-regulation/' }
+        ]
       }
     };
     const recipients = [
@@ -270,6 +419,12 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
       'a.kisteman@tweedekamer.nl', 'j.klaver@tweedekamer.nl', 'm.koekkoek@tweedekamer.nl',
       'w.koops@tweedekamer.nl', 'a.kops@tweedekamer.nl'
     ];
+    const euroRecipients = [
+      'dirk.gotink@europarl.europa.eu', 'bart.groothuis@europarl.europa.eu', 'anja.hazekamp@europarl.europa.eu',
+      'sebastian.kruis@europarl.europa.eu', 'jeroen.lenaers@europarl.europa.eu', 'marit.maij@europarl.europa.eu',
+      'thijs.reuten@europarl.europa.eu', 'bert-jan.ruissen@europarl.europa.eu', 'sander.smit@europarl.europa.eu',
+      'sebastiaan.stoteler@europarl.europa.eu', 'tineke.strik@europarl.europa.eu'
+    ];
     const sources = {
       nl: [
         { name: '↗ Human Rights Watch Rapport', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
@@ -290,7 +445,8 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
     };
     const donations = {
       nl: [
-        { name: 'Steun United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
+        { name: '(!) Steun de Wereldwijde Mars voor Palestina', url: 'https://gmfpalestine.com/' },
+        { name: '(!) Steun United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
         { name: 'Steun Fatima Alqolaq en haar gezin', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
         { name: 'Steun Adel uit Gaza', url: 'https://gofund.me/b57bcc02' },
         { name: 'Steun Munir Al-Omari uit Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3A62c0271d-a365-421c-a470-0382aa61f532&ts=1755297599' },
@@ -301,7 +457,8 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
         { name: 'Steun Palestinians in hun tijd van nood', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
       ],
       en: [
-        { name: 'Support United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
+        { name: '(!) Support the Global March for Palestine', url: 'https://gmfpalestine.com/' },
+        { name: '(!) Support United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
         { name: 'Help Out Fatima Alqolaq and her family', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
         { name: 'Help Out Adel from Gaza', url: 'https://gofund.me/b57bcc02' },
         { name: 'Help Out Munir Al-Omari from Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3A62c0271d-a365-421c-a470-0382aa61f532&ts=1755297599' },
@@ -317,10 +474,10 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
       container.innerHTML = '';
       items.forEach(item => {
         const a = document.createElement('a');
-        a.href = item.url;
-        a.target = '_blank';
-        a.rel = 'noopener';
+        a.href = item.url || '#';
+        a.dataset.action = item.action;
         a.textContent = item.name;
+        if (item.url) a.target = '_blank';
         container.appendChild(a);
       });
     }
@@ -331,18 +488,44 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
       ui.btn2.textContent = t.btn2;
       ui.btn2sub.textContent = t.btn2sub;
       ui.btn3.textContent = t.btn3;
-      ui.btn3sub.textContent = t.btn3sub;
+      ui.panelTitle.textContent = t.panelTitle;
+      ui.referenceText.textContent = t.referenceText;
+      ui.sectionTitle.textContent = t.sectionTitle;
+      ui.sourceText.textContent = t.sourceText;
       document.documentElement.lang = lang;
+      renderLinks(ui.emailLinks, t.emailLinks);
       renderLinks(ui.donationLinks, donations[lang]);
+      renderLinks(ui.referenceLinks, t.referenceLinks);
       renderLinks(ui.evidenceLinks, sources[lang]);
     }
-    function openMail() {
+    function sendViolenceEmail() {
       const t = i18n[lang];
       const to = recipients.join(',');
       const bcc = 'hindrajab1948@gmail.com';
       const subject = encodeURIComponent(t.subject);
       const body = encodeURIComponent(t.body);
       const href = `mailto:${to}?bcc=${encodeURIComponent(bcc)}&subject=${subject}&body=${body}`;
+      const a = document.createElement('a');
+      a.href = href;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    function sendChatControlEmail() {
+      const subject = lang === 'nl' ? 'Mijn Stem TEGEN het Chat Control Wetsvoorstel' : 'My Voice AGAINST the Chat Control Legislative Bill';
+      const body = lang === 'nl' ?
+        `Beste Europarlementariërs van Nederland,
+Als bezorgde Nederlandse en Europese burger maak ik mij grote zorgen over het voorgestelde EU-wetsvoorstel inzake "Chat Control". Ik ben ernstig verontrust over de manier waarop dit voorstel de fundamentele rechten van alle burgers aantast.
+Het doorlichten en controleren van privéberichten komt neer op een grootschalige inbreuk op onze persoonlijke levenssfeer en tast het recht op vertrouwelijke communicatie aan. Dit ondermijnt niet alleen de privacy van miljoenen onschuldige burgers, maar schept ook een gevaarlijk precedent voor toezicht en controle binnen de Europese Unie.
+Ik verzoek u dringend om dit wetsvoorstel niet te steunen.` :
+        `Dear Members of the European Parliament from the Netherlands,
+As a concerned Dutch and European citizen, I am deeply worried about the proposed EU legislation on "Chat Control." I am gravely concerned about the way this proposal undermines the fundamental rights of all citizens.
+The scanning and monitoring of private messages amounts to a large-scale violation of our personal privacy and infringes upon the right to confidential communication. This not only compromises the privacy of millions of innocent citizens but also sets a dangerous precedent for surveillance and control within the European Union.
+I urgently appeal to you not to support this proposal.`;
+      const to = euroRecipients.join(',');
+      const bcc = 'hindrajab1948@gmail.com';
+      const href = `mailto:${to}?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       const a = document.createElement('a');
       a.href = href;
       a.style.display = 'none';
@@ -358,23 +541,43 @@ The ongoing crisis in Gaza demands your immediate attention and action. As repre
         applyLang();
       });
     });
-    ui.btn1.addEventListener('click', openMail);
+    ui.btn1.addEventListener('click', () => {
+      const isVisible = ui.emailPanel.style.display === 'flex';
+      ui.emailPanel.style.display = isVisible ? 'none' : 'flex';
+      ui.btn1sub.style.display = isVisible ? 'block' : 'none';
+      if (!isVisible) {
+        ui.donationPanel.style.display = 'none';
+        ui.evidencePanel.style.display = 'none';
+        ui.btn2sub.style.display = 'block';
+      }
+    });
     ui.btn2.addEventListener('click', () => {
       const isVisible = ui.donationPanel.style.display === 'flex';
       ui.donationPanel.style.display = isVisible ? 'none' : 'flex';
       ui.btn2sub.style.display = isVisible ? 'block' : 'none';
       if (!isVisible) {
+        ui.emailPanel.style.display = 'none';
         ui.evidencePanel.style.display = 'none';
-        ui.btn3sub.style.display = 'block';
+        ui.btn1sub.style.display = 'block';
       }
     });
     ui.btn3.addEventListener('click', () => {
       const isVisible = ui.evidencePanel.style.display === 'flex';
       ui.evidencePanel.style.display = isVisible ? 'none' : 'flex';
-      ui.btn3sub.style.display = isVisible ? 'block' : 'none';
       if (!isVisible) {
+        ui.emailPanel.style.display = 'none';
         ui.donationPanel.style.display = 'none';
+        ui.btn1sub.style.display = 'block';
         ui.btn2sub.style.display = 'block';
+      }
+    });
+    ui.emailLinks.addEventListener('click', (e) => {
+      if (e.target.dataset.action === 'sendViolenceEmail') {
+        e.preventDefault();
+        sendViolenceEmail();
+      } else if (e.target.dataset.action === 'sendChatControlEmail') {
+        e.preventDefault();
+        sendChatControlEmail();
       }
     });
     applyLang();
