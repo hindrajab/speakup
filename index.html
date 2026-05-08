@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title> 🍉🍉🍉 </title>
-  <meta property="og:title" content="Speak Up for Palestine 🍉">
-  <meta property="og:description" content="Stuur een e-mail, doneer, en deel de waarheid. Jouw stem telt.">
+  <title>🍉 Speak Up!</title>
+  <meta property="og:title" content="🍉 Speak Up!">
+  <meta property="og:description" content="Laat je stem horen voor Palestina. Stuur een e-mail, bekijk de feiten, en deel het verhaal.">
+  <meta property="og:image" content="https://hindrajab.github.io/speakup/rajab.png">
+  <meta property="og:url" content="https://hindrajab.github.io/speakup">
   <meta property="og:type" content="website">
-  <meta name="description" content="Actie ondernemen voor Palestina. Stuur e-mails, doneer, en bekijk bronnen.">
+  <meta name="description" content="Laat je stem horen voor Palestina. Stuur een e-mail, bekijk de feiten, en deel het verhaal.">
   <meta name="theme-color" content="#0a0a0a">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -19,16 +21,13 @@
     .page{position:relative;z-index:1;width:100%;max-width:480px;padding:1.5rem 1.25rem 3rem;display:flex;flex-direction:column;gap:1.25rem}
     .view{display:none;flex-direction:column;gap:1rem}.view.active{display:flex}
 
-    /* Top bar: lang + share */
-    .top-bar{display:flex;align-items:center;justify-content:center;gap:0.6rem}
+    .share-btn{background:none;border:none;padding:0;font-family:inherit;cursor:pointer}
+    .social-footer{display:flex;justify-content:center;gap:1.5rem;padding-top:0.5rem}
     .lang-toggle{display:flex;gap:0;border:1px solid var(--border);border-radius:100px;overflow:hidden}
     .lang-btn{background:transparent;border:none;color:var(--grey);font-size:0.8rem;font-weight:600;padding:0.45rem 0.85rem;cursor:pointer;transition:all 0.2s ease;font-family:inherit;display:flex;align-items:center;gap:0.35rem}
     .lang-btn .flag-img{width:16px;height:12px;border-radius:1px;object-fit:cover}
     .lang-btn.active{background:var(--white);color:var(--black)}
     .lang-btn:not(.active):hover{background:rgba(255,255,255,0.06)}
-    .share-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--grey);cursor:pointer;transition:all 0.15s ease;flex-shrink:0}
-    .share-btn:hover{background:rgba(255,255,255,0.06);color:var(--white)}
-    .share-btn svg{width:16px;height:16px}
     .share-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:0.5rem 1.2rem;border-radius:100px;font-size:0.8rem;font-weight:600;z-index:99;opacity:0;transition:opacity 0.3s ease;pointer-events:none}
     .share-toast.show{opacity:1}
 
@@ -95,7 +94,6 @@
     .yt-btn:hover{background:rgba(193,39,45,0.18)}
     .yt-icon{width:20px;height:20px;flex-shrink:0;color:var(--red)}
 
-    .social-footer{display:flex;justify-content:center;padding-top:0.5rem}
     .social-link{display:flex;align-items:center;gap:0.4rem;color:var(--grey);text-decoration:none;font-size:0.8rem;font-weight:600;transition:color 0.15s ease}
     .social-link:hover{color:var(--white)}.social-link svg{width:18px;height:18px}
     @media(min-width:600px){.page{max-width:520px;padding:2rem 2rem 4rem}}
@@ -105,15 +103,10 @@
 <div class="page">
   <!-- MAIN VIEW -->
   <div class="view active" id="view-main">
-    <div class="top-bar">
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="nl"><img src="nl.svg" alt="" class="flag-img"> NL</button>
-        <button class="lang-btn" data-lang="en"><img src="gb.svg" alt="" class="flag-img"> EN</button>
-        <button class="lang-btn" data-lang="fr"><img src="fr.svg" alt="" class="flag-img"> FR</button>
-      </div>
-      <button class="share-btn" id="share-btn" aria-label="Share">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-      </button>
+    <div class="lang-toggle" style="align-self:center">
+      <button class="lang-btn active" data-lang="nl"><img src="nl.svg" alt="" class="flag-img"> NL</button>
+      <button class="lang-btn" data-lang="en"><img src="gb.svg" alt="" class="flag-img"> EN</button>
+      <button class="lang-btn" data-lang="fr"><img src="fr.svg" alt="" class="flag-img"> FR</button>
     </div>
     <div class="hero-card">
       <img src="rajab.png" alt="Hind Rajab" class="hero-img">
@@ -130,6 +123,10 @@
       <div class="accordion-panel" id="sources-panel"><div class="accordion-inner"><div class="acc-divider"></div><div class="links-list" id="sources-links"></div></div></div>
     </div>
     <div class="social-footer">
+      <button class="social-link share-btn" id="share-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span id="share-label">Delen</span>
+      </button>
       <a href="https://www.instagram.com/hindrajabscar" target="_blank" rel="noopener" class="social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@hindrajabscar</a>
     </div>
   </div>
@@ -173,6 +170,7 @@ D.nl.donateTitle='Help met een donatie';
 D.nl.donateDesc='Jouw bijdrage redt levens. Elk bedrag telt.';
 D.nl.sourcesLabel='Bekijk de feiten';
 D.nl.shareCopied='Link gekopieerd!';
+D.nl.shareLabel='Delen';
 D.nl.violenceSubject='Oproep tot staakt-het-vuren en internationale rechtsbescherming in het Midden-Oosten';
 D.nl.violenceBody='Geachte Kamerlid,\n\nIk schrijf u om u op te roepen concrete stappen te zetten om een einde te maken aan de oorlogen in het Midden-Oosten, met name in Gaza en Libanon.\nHet aanhoudende geweld veroorzaakt enorm veel leed onder de burgerbevolking. Ik verzoek u vriendelijk om:\n\nTe pleiten voor een onmiddellijk en duurzaam staakt-het-vuren.\nVolledige onderzoeken te steunen door het Internationaal Strafhof (ICC) en andere internationale instanties naar mogelijke schendingen van het humanitair oorlogsrecht door alle betrokken partijen.\n\nIsra\u00ebl te houden aan dezelfde internationale rechtsnormen als elk ander land.\nVerdere escalatie tegen te gaan en invloed die het conflict verlengt te beperken.\n\nVeel Nederlandse burgers maken zich ernstig zorgen over de humanitaire situatie en het risico op verdere regionale destabilisatie. Nederland, als groot voorstander van de internationale rechtsorde, heeft volgens mij de plicht om consistent en onpartijdig op te treden.\n\nIk zou het op prijs stellen te vernemen wat uw standpunt is en welke stappen u concreet wilt zetten.\n\nBij voorbaat dank voor uw tijd en inzet voor ons land.\n\nMet vriendelijke groeten.';
 D.nl.chatControlSubject='Mijn Stem TEGEN het Chat Control Wetsvoorstel';
@@ -223,6 +221,7 @@ D.en.donateTitle='Help with a donation';
 D.en.donateDesc='Your contribution provides real aid. Every amount counts.';
 D.en.sourcesLabel='See the evidence';
 D.en.shareCopied='Link copied!';
+D.en.shareLabel='Share';
 D.en.violenceSubject='Call for ceasefire and accountability under international law in the Middle East';
 D.en.violenceBody='Dear Member of Parliament,\n\nI am writing to urge you to take active steps to help stop the ongoing wars in the Middle East, particularly in Gaza and Lebanon.\nThe continuing violence has caused enormous civilian suffering. I respectfully request that you:\n\nAdvocate for an immediate and lasting ceasefire.\nSupport full investigations by the International Criminal Court and other international bodies into violations of international humanitarian law by all parties involved.\nWork to hold Israel accountable to the same international legal standards as any other country.\n\nOppose further escalation and the influence that prolongs the conflict.\nMany Dutch citizens are deeply concerned about the humanitarian situation and the risk of wider regional instability. I believe the Netherlands, as a strong supporter of international law, has a duty to act consistently and impartially.\n\nI would value knowing your position on this matter and what actions you plan to take.\n\nThank you for your time and service to the country.\n\nBest regards.';
 D.en.chatControlSubject='My Voice AGAINST the Chat Control Legislative Bill';
@@ -273,6 +272,7 @@ D.fr.donateTitle='Aidez par un don';
 D.fr.donateDesc='Votre don apporte une aide concr\u00e8te. Chaque montant compte.';
 D.fr.sourcesLabel='Consultez les preuves';
 D.fr.shareCopied='Lien copi\u00e9 !';
+D.fr.shareLabel='Partager';
 D.fr.violenceSubject='Appel au cessez-le-feu et au respect du droit international au Moyen-Orient';
 D.fr.violenceBody='Cher(e) Membre du Parlement,\n\nJe vous \u00e9cris pour vous demander de prendre des mesures actives afin de contribuer \u00e0 mettre fin aux guerres en cours au Moyen-Orient, en particulier \u00e0 Gaza et au Liban.\nLa violence persistante a caus\u00e9 d\u2019\u00e9normes souffrances parmi la population civile. Je vous demande respectueusement de :\n\nPlaider pour un cessez-le-feu imm\u00e9diat et durable.\nSoutenir des enqu\u00eates compl\u00e8tes par la Cour P\u00e9nale Internationale et d\u2019autres instances internationales sur les violations du droit international humanitaire par toutes les parties impliqu\u00e9es.\nVeiller \u00e0 ce qu\u2019Isra\u00ebl soit tenu aux m\u00eames normes juridiques internationales que tout autre pays.\n\nS\u2019opposer \u00e0 toute escalade et \u00e0 l\u2019influence qui prolonge le conflit.\n\nJ\u2019appr\u00e9cierais de conna\u00eetre votre position sur ce sujet et les mesures que vous comptez prendre.\n\nCordialement.';
 D.fr.chatControlSubject='Mon opposition au projet de loi \u00ab Chat Control \u00bb';
@@ -332,7 +332,7 @@ document.getElementById('sources-trigger').addEventListener('click',function(){
 /* ===== SHARE ===== */
 document.getElementById('share-btn').addEventListener('click',function(){
   var t=D[lang];
-  if(navigator.share){navigator.share({title:'Speak Up! \U0001f349',url:window.location.href}).catch(function(){})}
+  if(navigator.share){navigator.share({title:document.title,url:window.location.href}).catch(function(){})}
   else{navigator.clipboard.writeText(window.location.href).then(function(){var toast=document.getElementById('share-toast');toast.textContent=t.shareCopied;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},2000)}).catch(function(){})}
 });
 
@@ -345,6 +345,7 @@ function render(){
   document.getElementById('email-label').textContent=t.emailLabel;
   document.getElementById('donate-label').textContent=t.donateLabel;
   document.getElementById('sources-label').textContent=t.sourcesLabel;
+  document.getElementById('share-label').textContent=t.shareLabel;
   document.querySelectorAll('.back-text').forEach(function(s){s.textContent=t.back});
   document.getElementById('email-title').textContent=t.emailTitle;
   document.getElementById('email-desc').textContent=t.emailDesc;
