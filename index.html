@@ -2,592 +2,785 @@
 <html lang="nl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>🍉 Speak Up!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Speak Up! 🍉</title>
+
+  <!-- Social sharing / OG tags -->
+  <meta property="og:title" content="Speak Up for Palestine 🍉">
+  <meta property="og:description" content="Stuur een e-mail, doneer, en deel de waarheid. Jouw stem telt.">
+  <meta property="og:type" content="website">
+  <meta name="description" content="Actie ondernemen voor Palestina! stuur e-mails naar volksvertegenwoordigers, doneer, en bekijk bronnen.">
+  <meta name="theme-color" content="#0a0a0a">
+
   <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #0b0b0c;
-      --fg: #f5f6f7;
-      --muted: #b8bcc2;
-      --accent: #2563eb;
-      --card: #131418;
-      --border: #26282c;
-      --alert: #000000;
+      --black: #0a0a0a;
+      --white: #f0f0ec;
+      --green: #007a3d;
+      --red: #c1272d;
+      --grey: #8a8a8a;
+      --card-bg: rgba(16, 16, 16, 0.85);
+      --border: rgba(255,255,255,0.08);
+      --radius: 6px;
     }
-    * {
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      min-height: 120vh;
-      margin: 0;
-      padding: 0;
-    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--black);
+      color: var(--white);
       min-height: 100vh;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+      min-height: 100dvh;
       display: flex;
-      align-items: flex-start;
       justify-content: center;
-      overflow: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
+    /* ===== BACKGROUND ===== */
     body::before {
       content: "";
-      position: absolute;
+      position: fixed;
       inset: 0;
-      background: url('palestine.jpg') center/cover no-repeat;
-      background-size: cover;
-      width: 100%;
-      height: 115%;
-      filter: blur(1px);
       z-index: 0;
+      /* Fallback gradient using flag colors — no external image needed */
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(193,39,45,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0,122,61,0.12) 0%, transparent 50%),
+        var(--black);
+      pointer-events: none;
     }
-    .wrap {
+
+    /* If you have a background image, uncomment this and it layers on top of the gradient fallback */
+    /*
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('palestine.jpg') center/cover no-repeat;
+      filter: blur(2px) brightness(0.3);
+      pointer-events: none;
+    }
+    */
+
+    /* ===== LAYOUT ===== */
+    .page {
       position: relative;
-      padding: 40px 20px 100px 20px;
-      border-radius: 15px;
-      width: min(680px, 92vw);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
       z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      padding: 2rem 1.25rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
-    h1 {
-      font-size: 2rem;
+
+    /* ===== HEADER ===== */
+    .header {
       text-align: center;
-      margin-bottom: 10px;
-      color: var(--fg);
-    }
-    .flags {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-    }
-    .flag {
-      font-size: 44px;
-      line-height: 1;
-      padding: 0;
-      border-radius: 0;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .flag.active {
-      transform: scale(1.15);
-    }
-    .flag:active {
-      transform: scale(0.98);
-    }
-    .btns {
       display: flex;
       flex-direction: column;
-      gap: 16px;
       align-items: center;
+      gap: 0.75rem;
     }
-    .btn-container {
+
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .header h1 .emoji {
+      display: inline-block;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--grey);
+      line-height: 1.5;
+      max-width: 320px;
+    }
+
+    /* ===== LANGUAGE TOGGLE ===== */
+    .lang-toggle {
       display: flex;
-      flex-direction: column;
       gap: 0;
-      width: 100%;
-    }
-    .btn {
-      font-family: "Open Sans", sans-serif;
-      font-size: 16px;
-      letter-spacing: 2px;
-      text-decoration: none;
-      text-transform: uppercase;
-      color: #000;
-      cursor: pointer;
-      border: 3px solid;
-      padding: 0.25em 0.5em;
-      box-shadow: 1px 1px 0 0, 2px 2px 0 0, 3px 3px 0 0, 4px 4px 0 0, 5px 5px 0 0;
-      position: relative;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      border-radius: 3px;
-      transition: all 0.25s ease;
-    }
-    .btn:hover {
-      background: rgba(255, 255, 255, 0.747);
-    }
-    #btn2 {
-      box-shadow: 1px 1px 0 0 #fff, 2px 2px 0 #fff, 3px 3px 0 #fff, 4px 4px 0 #fff, 5px 5px 0 #fff;
-    }
-    #btn3 {
-      box-shadow: 1px 1px 0 0 #007a3d, 2px 2px 0 #007a3d, 3px 3px 0 #007a3d, 4px 4px 0 #007a3d, 5px 5px 0 #007a3d;
-    }
-    .btn:active {
-      box-shadow: 0 0 0 0;
-      top: 5px;
-      left: 5px;
-    }
-    @media (min-width: 768px) {
-      .btn {
-        padding: 0.25em 0.75em;
-      }
-    }
-    .subtext {
-      font-size: 0.9rem;
-      color: var(--fg);
-      background: rgba(0, 0, 0, 0.5);
-      padding: 6px 10px;
-      border-radius: 1px;
-      width: 100%;
-      text-align: center;
-      margin-left: 3px;
-    }
-    .panel {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      padding: 16px;
       border: 1px solid var(--border);
-      margin-left: 3px;
-      border-radius: 0px;
-      background: var(--card);
+      border-radius: 100px;
+      overflow: hidden;
+      align-self: center;
     }
-    .panel[style*="display: flex"] {
-      margin-bottom: 5px;
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--grey);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
-    .links {
+
+    .lang-btn .flag-emoji {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .lang-btn.active {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .lang-btn:not(.active):hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* ===== ACTION CARDS ===== */
+    .actions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 0.75rem;
     }
-    .links a {
-      word-break: break-all;
-      color: var(--fg);
-      text-decoration: underline;
+
+    .action-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
-    .tag {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    .social-links {
+
+    .action-trigger {
+      width: 100%;
       display: flex;
-      flex-direction: row;
-      gap: 16px;
-      justify-content: center;
       align-items: center;
-      margin-top: 20px;
+      gap: 0.75rem;
+      padding: 1rem 1.1rem;
+      background: none;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      line-height: 1.35;
+      transition: background 0.15s ease;
+      min-height: 56px; /* touch target */
     }
+
+    .action-trigger:hover {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .action-trigger:active {
+      background: rgba(255,255,255,0.07);
+    }
+
+    .action-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+    }
+
+    .action-icon.email { background: rgba(193,39,45,0.15); }
+    .action-icon.donate { background: rgba(0,122,61,0.15); }
+    .action-icon.sources { background: rgba(255,255,255,0.08); }
+
+    .action-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .action-title {
+      display: block;
+    }
+
+    .action-desc {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--grey);
+      margin-top: 2px;
+    }
+
+    .action-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.25s ease;
+      color: var(--grey);
+    }
+
+    .action-card.open .action-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* ===== EXPANDABLE PANEL ===== */
+    .action-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .action-panel-inner {
+      padding: 0 1.1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .panel-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ===== LINK ITEMS ===== */
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.03);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.4;
+      transition: background 0.15s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      text-align: left;
+      width: 100%;
+      min-height: 44px; /* touch target */
+    }
+
+    .link-item:hover {
+      background: rgba(255,255,255,0.07);
+    }
+
+    .link-item:active {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .link-arrow {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      color: var(--grey);
+      margin-left: auto;
+    }
+
+    .link-item .link-prefix {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .link-prefix.urgent {
+      background: rgba(193,39,45,0.2);
+      color: #e05555;
+    }
+
+    .link-prefix.org {
+      background: rgba(0,122,61,0.15);
+      color: #4dbd7a;
+    }
+
+    /* ===== SECTION HEADERS INSIDE PANELS ===== */
+    .panel-section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey);
+      padding: 0.6rem 0 0.2rem;
+    }
+
+    .panel-section-desc {
+      font-size: 0.78rem;
+      color: var(--grey);
+      line-height: 1.5;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ===== SOCIAL FOOTER ===== */
+    .social-footer {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding-top: 0.5rem;
+    }
+
     .social-link {
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: var(--fg);
+      gap: 0.4rem;
+      color: var(--grey);
       text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: bold;
-      transition: transform 0.2s;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: color 0.15s ease;
     }
+
     .social-link:hover {
-      transform: scale(1.05);
+      color: var(--white);
     }
-    .social-link:active {
-      transform: scale(0.98);
+
+    .social-link svg {
+      width: 18px;
+      height: 18px;
     }
-    .social-icon {
-      width: 24px;
-      height: 24px;
+
+    /* ===== FLAG BAR ===== */
+    .flag-bar {
+      display: flex;
+      height: 3px;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.25rem;
     }
-    .social-text {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+
+    .flag-bar span {
+      flex: 1;
     }
-    .at-symbol {
-      color: var(--muted);
-    }
-    .panel-title {
-      font-size: 1rem;
-      font-weight: bold;
-      color: var(--fg);
-      text-align: center;
-      position: relative;
-      margin: 10px 0;
-      padding: 0 10px;
-    }
-    .panel-title::before,
-    .panel-title::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: var(--fg);
-    }
-    .panel-title::before {
-      left: 0;
-    }
-    .panel-title::after {
-      right: 0;
-    }
-    .section-title {
-      font-size: 1rem;
-      font-weight: bold;
-      color: var(--fg);
-      text-align: center;
-      position: relative;
-      margin: 10px 0;
-      padding: 0 10px;
-    }
-    .section-title::before,
-    .section-title::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: var(--fg);
-    }
-    .section-title::before {
-      left: 0;
-    }
-    .section-title::after {
-      right: 0;
-    }
-    .section-text {
-      font-size: 0.9rem;
-      color: var(--fg);
-      text-align: left;
-      margin: 5px 0;
-    }
-    @media (max-width: 560px) {
-      .panel-title::before,
-      .panel-title::after,
-      .section-title::before,
-      .section-title::after {
-        width: 30%;
+
+    .flag-bar .fb-black { background: #1a1a1a; }
+    .flag-bar .fb-white { background: var(--white); }
+    .flag-bar .fb-green { background: var(--green); }
+    .flag-bar .fb-red { background: var(--red); }
+
+    /* ===== DESKTOP ===== */
+    @media (min-width: 600px) {
+      .page {
+        max-width: 520px;
+        padding: 3rem 2rem 4rem;
       }
-    }
-    @media (min-width: 560px) {
-      .btn {
-        font-size: 1.1rem;
-      }
-      .flag {
-        font-size: 52px;
-        margin-bottom: 5px;
-      }
-      .social-icon {
-        width: 28px;
-        height: 28px;
-      }
-      .social-link {
-        font-size: 0.95rem;
-      }
+      .header h1 { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="flags">
-      <button class="flag active" data-lang="nl" aria-label="Nederlands">🇳🇱</button>
-      <button class="flag" data-lang="en" aria-label="English">🇬🇧</button>
-    </div>
-    <div class="btns">
-      <div class="btn-container">
-        <button id="btn1" class="btn">Laat Je Stem Horen</button>
-        <div class="subtext" id="btn1sub">Stuur een e-mail naar de Nederlandse regering</div>
-        <div class="panel" id="emailPanel">
-          <div class="links" id="emailLinks"></div>
-        </div>
-      </div>
-      <div class="btn-container">
-        <button id="btn2" class="btn">Doneren</button>
-        <div class="subtext" id="btn2sub">Doneren</div>
-        <div class="panel" id="donationPanel">
-          <div class="links" id="donationLinks"></div>
-        </div>
-      </div>
-      <div class="btn-container">
-        <button id="btn3" class="btn">Wetsvoorstellen & Bronnen</button>
-        <div class="panel" id="evidencePanel">
-          <div class="panel-title" id="panelTitle"></div>
-          <div class="section-text" id="referenceText"></div>
-          <div class="links" id="referenceLinks"></div>
-          <div class="section-title" id="sectionTitle"></div>
-          <div class="section-text" id="sourceText"></div>
-          <div class="links" id="evidenceLinks"></div>
-        </div>
-      </div>
-    </div>
-    <div class="social-links">
-      <a href="https://www.instagram.com/hindrajabscar" target="_blank" rel="noopener" class="social-link" aria-label="Follow hindrajabscar on Instagram">
-        <img src="https://static.vecteezy.com/system/resources/previews/018/930/415/non_2x/instagram-logo-instagram-icon-transparent-free-png.png" alt="Instagram icon" class="social-icon">
-        <span class="social-text"><span class="at-symbol">@</span>hindrajabscar</span>
-      </a>
-      <a href="https://www.instagram.com/the_dutchrevert" target="_blank" rel="noopener" class="social-link" aria-label="Follow the_dutchrevert on Instagram">
-        <img src="https://static.vecteezy.com/system/resources/previews/018/930/415/non_2x/instagram-logo-instagram-icon-transparent-free-png.png" alt="Instagram icon" class="social-icon">
-        <span class="social-text"><span class="at-symbol">@</span>the_dutchrevert</span>
-      </a>
-    </div>
+
+<div class="page">
+
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="nl">
+      <span class="flag-emoji">🇳🇱</span> NL
+    </button>
+    <button class="lang-btn" data-lang="en">
+      <span class="flag-emoji">🇬🇧</span> EN
+    </button>
+    <button class="lang-btn" data-lang="fr">
+      <span class="flag-emoji">🇫🇷</span> FR
+    </button>
   </div>
-  <script>
-    const ui = {
-      flags: document.querySelectorAll('.flag'),
-      btn1: document.getElementById('btn1'),
-      btn1sub: document.getElementById('btn1sub'),
-      btn2: document.getElementById('btn2'),
-      btn2sub: document.getElementById('btn2sub'),
-      btn3: document.getElementById('btn3'),
-      panelTitle: document.getElementById('panelTitle'),
-      referenceText: document.getElementById('referenceText'),
-      sectionTitle: document.getElementById('sectionTitle'),
-      sourceText: document.getElementById('sourceText'),
-      emailPanel: document.getElementById('emailPanel'),
-      donationPanel: document.getElementById('donationPanel'),
-      evidencePanel: document.getElementById('evidencePanel'),
-      emailLinks: document.getElementById('emailLinks'),
-      donationLinks: document.getElementById('donationLinks'),
-      referenceLinks: document.getElementById('referenceLinks'),
-      evidenceLinks: document.getElementById('evidenceLinks')
-    };
-    const i18n = {
-      nl: {
-        btn1: 'Stuur een e-mail!',
-        btn1sub: 'Stuur een voorgeschreven e-mail tegen geweld of wetsvoorstellen die onze rechten beperken.',
-        btn2: 'Doe een Donatie!',
-        btn2sub: 'Draag bij met een donatie voor acties of levensreddende hulp zoals water en voedselpakketten.',
-        btn3: 'Wetsvoorstellen & Bronnen',
-        panelTitle: 'Wetsvoorstellen',
-        referenceText: 'Wetsvoorstellen die actie vereisen.',
-        sectionTitle: 'Bronnen',
-        sourceText: 'Onafhankelijke en neutrale bronnen die bewijs leveren van de Palestijnse genocide door Israël.',
-        subject: 'STOP het Geweld',
-        body: `Beste Leden van de Tweede Kamer en Ministers van Nederland,
-De aanhoudende crisis in Gaza vereist uw onmiddellijke aandacht en actie. Als vertegenwoordigers van een natie die zich inzet voor mensenrechten en internationaal recht, bekleedt u geprivilegieerde en machtige posities om een verschil te maken. Wij roepen u dringend op om een onmiddellijk einde te eisen aan het geweld in Gaza, dat enorm lijden en verlies van mensenlevens heeft veroorzaakt. Daarnaast smeken wij u om te pleiten voor uitgebreide sancties tegen Israël om verdere escalatie te stoppen en verantwoording te waarborgen. Uw leiderschap is cruciaal om rechtvaardigheid te handhaven, onschuldige levens te beschermen en de toewijding van Nederland aan wereldwijde vrede en solidariteit te versterken. Handel nu om verdere tragedie te voorkomen.`,
-        emailLinks: [
-          { name: 'Stuur een voorgeschreven "STOP het geweld" mail naar de Tweede Kamer', action: 'sendViolenceEmail' },
-          { name: 'Stuur een voorgeschreven mail tegen het "Chat Control" wetsvoorstel naar het Europese Parlement', action: 'sendChatControlEmail' }
-        ],
-        referenceLinks: [
-          { name: 'Informatie omtrent het "Chat Control" Wetsvoorstel', url: 'https://eenvandaag.avrotros.nl/artikelen/toenemende-steun-voor-eu-wetsvoorstel-chat-control-tegen-online-kindermisbruik-maar-ook-zorgen-controleren-van-prive-appjes-is-ernstige-privacyschending-161053' }
-        ]
-      },
-      en: {
-        btn1: 'Send an Email!',
-        btn1sub: 'Send a pre-written email against violence or legislative proposals that limit our rights.',
-        btn2: 'Make a Donation!',
-        btn2sub: 'Make a donation for demonstrations or life-saving aid such as water and food packages.',
-        btn3: 'Legislative Bills & Sources',
-        panelTitle: 'Legislative Bills',
-        referenceText: 'Legislative bills we need action against.',
-        sectionTitle: 'Sources',
-        sourceText: 'Independent and neutral sources proving the Palestinian Genocide by Israel.',
-        subject: 'STOP the violence',
-        body: `Dear Members of the Tweede Kamer and Ministers of the Netherlands,
-The ongoing crisis in Gaza demands your immediate attention and action. As representatives of a nation committed to human rights and international law, you hold privileged and powerful positions to make a difference. We urgently call on you to demand an immediate cessation of the violence in Gaza, which has caused immense suffering and loss of life. Furthermore, we urge you to advocate for comprehensive sanctions against Israel to halt further escalation and ensure accountability. Your leadership is crucial to uphold justice, protect innocent lives, and reinforce the Netherlands' commitment to global peace and solidarity. Act now to prevent further tragedy.`,
-        emailLinks: [
-          { name: 'Send a pre-written "STOP the violence" email to the Dutch Parliament', action: 'sendViolenceEmail' },
-          { name: 'Send a pre-written email against the "Chat Control" bill to the European Parliament', action: 'sendChatControlEmail' }
-        ],
-        referenceLinks: [
-          { name: 'Information regarding "Chat Control" Legislative Bill', url: 'https://eu.ci/eu-chat-control-regulation/' }
-        ]
-      }
-    };
-    const recipients = [
-      'm.aardema@tweedekamer.nl', 't.aartsen@tweedekamer.nl', 'i.elabassi@tweedekamer.nl',
-      's.vanbaarle@tweedekamer.nl', 'm.bamenga@tweedekamer.nl', 't.baudet@tweedekamer.nl',
-      'b.becker@tweedekamer.nl', 's.beckerman@tweedekamer.nl', 'm.debeer@tweedekamer.nl',
-      'h.bevers@tweedekamer.nl', 'm.bikker@tweedekamer.nl', 'b.bikkers@tweedekamer.nl',
-      'r.blaauw@tweedekamer.nl', 'h.bontenbal@tweedekamer.nl', 'd.boomsma@tweedekamer.nl',
-      'm.boon@tweedekamer.nl', 'v.vandenborn@tweedekamer.nl', 'm.bosma@tweedekamer.nl',
-      'd.boswijk@tweedekamer.nl', 'w.boutkan@tweedekamer.nl', 'l.bromet@tweedekamer.nl',
-      'f.bruyning@tweedekamer.nl', 'e.vanderburg@tweedekamer.nl', 'm.buijsse@tweedekamer.nl',
-      'j.bushoff@tweedekamer.nl', 't.vancampen@tweedekamer.nl', 'd.ceder@tweedekamer.nl',
-      'g.chakor@tweedekamer.nl', 'r.claassen@tweedekamer.nl', 'p.crijns@tweedekamer.nl',
-      'l.dassen@tweedekamer.nl', 'm.deen@tweedekamer.nl', 'r.dekker@tweedekamer.nl',
-      't.vandijck@tweedekamer.nl', 'j.dijk@tweedekamer.nl', 'd.vandijk@tweedekamer.nl',
-      'e.vandijk@tweedekamer.nl', 'i.vandijk@tweedekamer.nl', 'o.vandijk@tweedekamer.nl',
-      's.dobbe@tweedekamer.nl', 'r.dral@tweedekamer.nl', 'j.eerdmans@tweedekamer.nl',
-      'w.vaneijk@tweedekamer.nl', 'u.ellian@tweedekamer.nl', 'd.ergin@tweedekamer.nl',
-      's.erkens@tweedekamer.nl', 'e.esser@tweedekamer.nl', 'c.faddegon@tweedekamer.nl',
-      'a.flach@tweedekamer.nl', 'g.gabriels@tweedekamer.nl', 'd.graus@tweedekamer.nl',
-      'p.grinwis@tweedekamer.nl', 'p.degroot@tweedekamer.nl', 'm.haage@tweedekamer.nl',
-      'p.vanhaasen@tweedekamer.nl', 'j.hartsuiker@tweedekamer.nl', 'e.heinen@tweedekamer.nl',
-      'a.heite@tweedekamer.nl', 'l.helder@tweedekamer.nl', 'r.hertzberger@tweedekamer.nl',
-      'h.heutink@tweedekamer.nl', 'e.vanhijum@tweedekamer.nl', 'j.vandenhil@tweedekamer.nl',
-      'd.hirsch@tweedekamer.nl', 'p.vanderhoeff@tweedekamer.nl', 'h.holman@tweedekamer.nl',
-      'h.dhoop@tweedekamer.nl', 'p.vanhouwelingen@tweedekamer.nl', 'f.idsinga@tweedekamer.nl',
-      'd.jansen@tweedekamer.nl', 'f.jansen@tweedekamer.nl', 'r.jetten@tweedekamer.nl',
-      'l.dejong@tweedekamer.nl', 'a.joseph@tweedekamer.nl', 'i.kahraman@tweedekamer.nl',
-      'r.kamminga@tweedekamer.nl', 'b.kathmann@tweedekamer.nl', 'b.vankent@tweedekamer.nl',
-      'a.kisteman@tweedekamer.nl', 'j.klaver@tweedekamer.nl', 'm.koekkoek@tweedekamer.nl',
-      'w.koops@tweedekamer.nl', 'a.kops@tweedekamer.nl'
-    ];
-    const euroRecipients = [
-      'dirk.gotink@europarl.europa.eu', 'bart.groothuis@europarl.europa.eu', 'anja.hazekamp@europarl.europa.eu',
-      'sebastian.kruis@europarl.europa.eu', 'jeroen.lenaers@europarl.europa.eu', 'marit.maij@europarl.europa.eu',
-      'thijs.reuten@europarl.europa.eu', 'bert-jan.ruissen@europarl.europa.eu', 'sander.smit@europarl.europa.eu',
-      'sebastiaan.stoteler@europarl.europa.eu', 'tineke.strik@europarl.europa.eu'
-    ];
-    const sources = {
-      nl: [
-        { name: '↗ The Rights Forum', url: 'https://www.rightsforum.org/' },
-        { name: '↗ Human Rights Watch Rapport', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
-        { name: '↗ OHCHR Persbericht', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
-        { name: '↗ Amnesty International Rapport', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
-        { name: '↗ AFSC Israelische Schendingen', url: 'https://afsc.org/israeli-violations' },
-        { name: '↗ Artsen zonder Grenzen Rapport', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
-        { name: '↗ Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
-      ],
-      en: [
-        { name: '↗ The Rights Forum', url: 'https://www.rightsforum.org/' },
-        { name: '↗ Human Rights Watch Report', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
-        { name: '↗ OHCHR Press Release', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
-        { name: '↗ Amnesty International Report', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
-        { name: '↗ AFSC Israeli Violations', url: 'https://afsc.org/israeli-violations' },
-        { name: '↗ Doctors Without Borders Report', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
-        { name: '↗ Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
-      ]
-    };
-    const donations = {
-      nl: [
-        { name: '(!) Steun de Wereldwijde Mars voor Palestina', url: 'https://gmfpalestine.com/' },
-        { name: '(!) Steun United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
-        { name: '(!) Steun Weeskinderen', url: 'https://www.qamarcharity.org/' },
-        { name: 'Steun Fatima Alqolaq en haar gezin', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
-        { name: 'Steun Adel uit Gaza', url: 'https://gofund.me/b57bcc02' },
-        { name: 'Steun Munir Al-Omari uit Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3A62c0271d-a365-421c-a470-0382aa61f532&ts=1755297599' },
-        { name: 'Steun Anas Abu Abdo uit Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
-        { name: 'Steun Adham Al Ajla en zijn gezin', url: 'https://www.gofundme.com/f/alhrb-la-ttokf-samot-an-bkyt-oaaaylty-fy-ghz?attribution_id=sl:2dadaff7-904a-4d8b-b476-c8c7a81c8883&utm_campaign=p_lico+share-sheet&utm_medium=copy_link&utm_source=customer' },
-        { name: 'Steun kleine Samia en Ameer uit Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future?attribution_id=sl:b5cd423c-103b-4b08-9aee-5b02b29480d9&utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=qr_code' },
-        { name: 'Steun Zakaria Issa en zijn gezin', url: 'https://www.gofundme.com/f/help-me-and-my-family-survive-this-crazy-war?attribution_id=sl:68ca25d5-4af8-4a03-b00f-ed9311bd058d&lang=en_US&ts=1748183392&utm_campaign=man_sharesheet_dash&utm_medium=customer&utm_source=copy_link' },
-        { name: 'Steun Palestinians in hun tijd van nood', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
-      ],
-      en: [
-        { name: '(!) Support the Global March for Palestine', url: 'https://gmfpalestine.com/' },
-        { name: '(!) Support United for Gaza', url: 'https://www.unitedforgaza.nl/donate' },
-        { name: '(!) Support Orphans', url: 'https://www.qamarcharity.org/' },
-        { name: 'Help Out Fatima Alqolaq and her family', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
-        { name: 'Help Out Adel from Gaza', url: 'https://gofund.me/b57bcc02' },
-        { name: 'Help Out Munir Al-Omari from Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3A62c0271d-a365-421c-a470-0382aa61f532&ts=1755297599' },
-        { name: 'Help Out Anas Abu Abdo from Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
-        { name: 'Help Out Adham Al Ajla and his family', url: 'https://www.gofundme.com/f/alhrb-la-ttokf-samot-an-bkyt-oaaaylty-fy-ghz?attribution_id=sl:2dadaff7-904a-4d8b-b476-c8c7a81c8883&utm_campaign=p_lico+share-sheet&utm_medium=copy_link&utm_source=customer' },
-        { name: 'Help Out little Samia and Ameer from Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future?attribution_id=sl:b5cd423c-103b-4b08-9aee-5b02b29480d9&utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=qr_code' },
-        { name: 'Help Out Zakaria Issa and his family', url: 'https://www.gofundme.com/f/help-me-and-my-family-survive-this-crazy-war?attribution_id=sl:68ca25d5-4af8-4a03-b00f-ed9311bd058d&lang=en_US&ts=1748183392&utm_campaign=man_sharesheet_dash&utm_medium=customer&utm_source=copy_link' },
-        { name: 'Support Palestinians in their time of crisis', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
-      ]
-    };
-    let lang = 'nl';
-    function renderLinks(container, items) {
-      container.innerHTML = '';
-      items.forEach(item => {
+
+  <!-- Flag bar -->
+  <div class="flag-bar">
+    <span class="fb-black"></span>
+    <span class="fb-white"></span>
+    <span class="fb-green"></span>
+    <span class="fb-red"></span>
+  </div>
+
+  <!-- Action Cards -->
+  <div class="actions">
+
+    <!-- 1: Email -->
+    <div class="action-card" id="card-email">
+      <button class="action-trigger" aria-expanded="false" aria-controls="panel-email">
+        <span class="action-icon email">✉️</span>
+        <span class="action-meta">
+          <span class="action-title" id="email-title">Stuur een e-mail!</span>
+          <span class="action-desc" id="email-desc">Stuur een voorgeschreven e-mail naar volksvertegenwoordigers.</span>
+        </span>
+        <svg class="action-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="action-panel" id="panel-email">
+        <div class="action-panel-inner">
+          <div class="panel-divider"></div>
+          <div id="email-links"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2: Donate -->
+    <div class="action-card" id="card-donate">
+      <button class="action-trigger" aria-expanded="false" aria-controls="panel-donate">
+        <span class="action-icon donate">💚</span>
+        <span class="action-meta">
+          <span class="action-title" id="donate-title">Doe een Donatie!</span>
+          <span class="action-desc" id="donate-desc">Draag bij voor hulp, water, voedsel, en demonstraties.</span>
+        </span>
+        <svg class="action-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="action-panel" id="panel-donate">
+        <div class="action-panel-inner">
+          <div class="panel-divider"></div>
+          <div id="donate-links"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3: Sources -->
+    <div class="action-card" id="card-sources">
+      <button class="action-trigger" aria-expanded="false" aria-controls="panel-sources">
+        <span class="action-icon sources">📄</span>
+        <span class="action-meta">
+          <span class="action-title" id="sources-title">Bekijk de feiten</span>
+          <span class="action-desc" id="sources-desc">Onafhankelijke rapporten en bronnen.</span>
+        </span>
+        <svg class="action-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="action-panel" id="panel-sources">
+        <div class="action-panel-inner">
+          <div class="panel-divider"></div>
+          <div id="sources-content"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Social -->
+  <div class="social-footer">
+    <a href="https://www.instagram.com/hindrajabscar" target="_blank" rel="noopener" class="social-link" aria-label="Instagram: hindrajabscar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @hindrajabscar
+    </a>
+    <a href="https://www.instagram.com/the_dutchrevert" target="_blank" rel="noopener" class="social-link" aria-label="Instagram: the_dutchrevert">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @the_dutchrevert
+    </a>
+  </div>
+
+</div>
+
+<script>
+/* ===== DATA ===== */
+
+const recipients = [
+  'a.bergkamp@tweedekamer.nl','a.biekman@tweedekamer.nl','a.flach@tweedekamer.nl',
+  'b.becker@tweedekamer.nl','b.bikkers@tweedekamer.nl','b.vdijk@tweedekamer.nl',
+  'c.vbrenk@tweedekamer.nl','c.vderplas@tweedekamer.nl','d.boomsma@tweedekamer.nl',
+  'd.ceder@tweedekamer.nl','d.ergin@tweedekamer.nl','d.graus@tweedekamer.nl',
+  'd.vdberg@tweedekamer.nl','d.vdijk@tweedekamer.nl','e.armut@tweedekamer.nl',
+  'e.lahlah@tweedekamer.nl','e.vark@tweedekamer.nl','e.vdijk@tweedekamer.nl',
+  'f.abdi@tweedekamer.nl','f.belhirch@tweedekamer.nl','f.ouderkerk@tweedekamer.nl',
+  'g.vmeijeren@tweedekamer.nl','g.wilders@tweedekamer.nl','h.bevers@tweedekamer.nl',
+  'h.bontenbal@tweedekamer.nl','h.dhoop@tweedekamer.nl','h.dijk@tweedekamer.nl',
+  'h.heutink@tweedekamer.nl','h.spronk@tweedekamer.nl','h.vmeijeren@tweedekamer.nl',
+  'i.coenradie@tweedekamer.nl','i.elabassi@tweedekamer.nl','i.vdijk@tweedekamer.nl',
+  'j.buhler@tweedekamer.nl','j.bushoff@tweedekamer.nl','j.dijk@tweedekamer.nl',
+  'j.eerdmans@tweedekamer.nl','j.klaver@tweedekamer.nl','j.mooiman@tweedekamer.nl',
+  'j.paternotte@tweedekamer.nl','j.vmeijeren@tweedekamer.nl','k.vderhoeven@tweedekamer.nl',
+  'l.boelsma@tweedekamer.nl','l.bromet@tweedekamer.nl','l.dassen@tweedekamer.nl',
+  'l.vdijk@tweedekamer.nl','m.bamenga@tweedekamer.nl','m.bikker@tweedekamer.nl',
+  'm.boon@tweedekamer.nl','m.bosma@tweedekamer.nl','m.dbeer@tweedekamer.nl',
+  'm.faber@tweedekamer.nl','m.goudzwaard@tweedekamer.nl','m.jallow@tweedekamer.nl',
+  'm.keijzer@tweedekamer.nl','m.vdermeer@tweedekamer.nl','m.vrooijen@tweedekamer.nl',
+  'p.dgroot@tweedekamer.nl','p.grinwis@tweedekamer.nl','p.omtzigt@tweedekamer.nl',
+  'p.vduijvenvoorde@tweedekamer.nl','p.vrijn@tweedekamer.nl','r.brekelmans@tweedekamer.nl',
+  'r.claassen@tweedekamer.nl','r.clemminck@tweedekamer.nl','r.dekker@tweedekamer.nl',
+  'r.droon@tweedekamer.nl','r.meer@tweedekamer.nl','r.vasten@tweedekamer.nl',
+  'r.vmeenen@tweedekamer.nl','s.beckerman@tweedekamer.nl','s.ceulemans@tweedekamer.nl',
+  's.dobbe@tweedekamer.nl','s.elboujdaini@tweedekamer.nl','s.hamstra@tweedekamer.nl',
+  's.maatoug@tweedekamer.nl','s.rozemond@tweedekamer.nl','s.vbaarle@tweedekamer.nl',
+  's.vhaaften@tweedekamer.nl','s.vrijn@tweedekamer.nl','t.baudet@tweedekamer.nl',
+  't.vcampen@tweedekamer.nl','t.vdbrink@tweedekamer.nl','t.vdelaan@tweedekamer.nl',
+  't.vdijck@tweedekamer.nl','t.vrijn@tweedekamer.nl','u.ellian@tweedekamer.nl',
+  'w.veijk@tweedekamer.nl'
+];
+
+const euroRecipients = [
+  'dirk.gotink@europarl.europa.eu','bart.groothuis@europarl.europa.eu','anja.hazekamp@europarl.europa.eu',
+  'sebastian.kruis@europarl.europa.eu','jeroen.lenaers@europarl.europa.eu','marit.maij@europarl.europa.eu',
+  'thijs.reuten@europarl.europa.eu','bert-jan.ruissen@europarl.europa.eu','sander.smit@europarl.europa.eu',
+  'sebastiaan.stoteler@europarl.europa.eu','tineke.strik@europarl.europa.eu'
+];
+
+const i18n = {
+  nl: {
+    emailTitle: 'Laat je stem horen',
+    emailDesc: 'Eén e-mail kan het verschil maken — het kost 30 seconden.',
+    donateTitle: 'Help nu direct',
+    donateDesc: 'Jouw bijdrage redt levens — elk bedrag telt.',
+    sourcesTitle: 'Bekijk de feiten',
+    sourcesDesc: 'Onafhankelijke rapporten en bronnen om te lezen en te delen.',
+    violenceSubject: 'Oproep tot staakt-het-vuren en internationale rechtsbescherming in het Midden-Oosten',
+    violenceBody: `Geachte Kamerlid,\n\nIk schrijf u om u op te roepen concrete stappen te zetten om een einde te maken aan de oorlogen in het Midden-Oosten, met name in Gaza en Libanon.\nHet aanhoudende geweld veroorzaakt enorm veel leed onder de burgerbevolking. Ik verzoek u vriendelijk om:\n\nTe pleiten voor een onmiddellijk en duurzaam staakt-het-vuren.\nVolledige onderzoeken te steunen door het Internationaal Strafhof (ICC) en andere internationale instanties naar mogelijke schendingen van het humanitair oorlogsrecht door alle betrokken partijen.\n\nIsraël te houden aan dezelfde internationale rechtsnormen als elk ander land.\nVerdere escalatie tegen te gaan en invloed die het conflict verlengt te beperken.\n\nVeel Nederlandse burgers maken zich ernstig zorgen over de humanitaire situatie en het risico op verdere regionale destabilisatie. Nederland, als groot voorstander van de internationale rechtsorde, heeft volgens mij de plicht om consistent en onpartijdig op te treden.\n\nIk zou het op prijs stellen te vernemen wat uw standpunt is en welke stappen u concreet wilt zetten.\n\nBij voorbaat dank voor uw tijd en inzet voor ons land.\n\nMet vriendelijke groeten.`,
+    chatControlSubject: 'Mijn Stem TEGEN het Chat Control Wetsvoorstel',
+    chatControlBody: `Beste Europarlementariërs van Nederland,\n\nAls bezorgde Nederlandse en Europese burger maak ik mij grote zorgen over het voorgestelde EU-wetsvoorstel inzake "Chat Control". Ik ben ernstig verontrust over de manier waarop dit voorstel de fundamentele rechten van alle burgers aantast.\n\nHet doorlichten en controleren van privéberichten komt neer op een grootschalige inbreuk op onze persoonlijke levenssfeer en tast het recht op vertrouwelijke communicatie aan. Dit ondermijnt niet alleen de privacy van miljoenen onschuldige burgers, maar schept ook een gevaarlijk precedent voor toezicht en controle binnen de Europese Unie.\n\nIk verzoek u dringend om dit wetsvoorstel niet te steunen.`,
+    emailActions: [
+      { label: 'Stuur oproep tot staakt-het-vuren naar de Tweede Kamer', action: 'violence' },
+      { label: 'Stuur mail tegen "Chat Control" naar het EU-Parlement', action: 'chatcontrol' }
+    ],
+    sourcesLabel: 'Bronnen',
+    sourcesDescText: 'Onafhankelijke en geverifieerde bronnen — lees en deel ze.',
+    sources: [
+      { name: 'The Rights Forum', url: 'https://www.rightsforum.org/' },
+      { name: 'Human Rights Watch Rapport', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
+      { name: 'OHCHR Persbericht', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
+      { name: 'Amnesty International Rapport', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
+      { name: 'AFSC Israelische Schendingen', url: 'https://afsc.org/israeli-violations' },
+      { name: 'Artsen zonder Grenzen Rapport', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
+      { name: 'Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
+    ],
+    donations: [
+      { name: 'Steun de Wereldwijde Mars voor Palestina', url: 'https://gmfpalestine.com/', urgent: true },
+      { name: 'Steun Weeskinderen via Qamar Charity', url: 'https://www.qamarcharity.org/', urgent: true },
+      { name: 'Help Fatima Alqolaq en haar gezin', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
+      { name: 'Help Adel uit Gaza', url: 'https://gofund.me/b57bcc02' },
+      { name: 'Help Munir Al-Omari uit Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US' },
+      { name: 'Help Anas Abu Abdo uit Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
+      { name: 'Help kleine Samia en Ameer uit Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future' },
+      { name: 'Steun Palestijnen in nood', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
+    ]
+  },
+  en: {
+    emailTitle: 'Raise your voice',
+    emailDesc: 'One email can make a difference — it takes 30 seconds.',
+    donateTitle: 'Help save lives now',
+    donateDesc: 'Your contribution provides real aid — every amount counts.',
+    sourcesTitle: 'See the evidence',
+    sourcesDesc: 'Independent reports and sources to read and share.',
+    violenceSubject: 'Call for ceasefire and accountability under international law in the Middle East',
+    violenceBody: `Dear Member of Parliament,\n\nI am writing to urge you to take active steps to help stop the ongoing wars in the Middle East, particularly in Gaza and Lebanon.\nThe continuing violence has caused enormous civilian suffering. I respectfully request that you:\n\nAdvocate for an immediate and lasting ceasefire.\nSupport full investigations by the International Criminal Court and other international bodies into violations of international humanitarian law by all parties involved.\nWork to hold Israel accountable to the same international legal standards as any other country.\n\nOppose further escalation and the influence that prolongs the conflict.\nMany Dutch citizens are deeply concerned about the humanitarian situation and the risk of wider regional instability. I believe the Netherlands, as a strong supporter of international law, has a duty to act consistently and impartially.\n\nI would value knowing your position on this matter and what actions you plan to take.\n\nThank you for your time and service to the country.\n\nBest regards.`,
+    chatControlSubject: 'My Voice AGAINST the Chat Control Legislative Bill',
+    chatControlBody: `Dear Members of the European Parliament from the Netherlands,\n\nAs a concerned Dutch and European citizen, I am deeply worried about the proposed EU legislation on "Chat Control." I am gravely concerned about the way this proposal undermines the fundamental rights of all citizens.\n\nThe scanning and monitoring of private messages amounts to a large-scale violation of our personal privacy and infringes upon the right to confidential communication. This not only compromises the privacy of millions of innocent citizens but also sets a dangerous precedent for surveillance and control within the European Union.\n\nI urgently appeal to you not to support this proposal.`,
+    emailActions: [
+      { label: 'Send ceasefire call to the Dutch Parliament', action: 'violence' },
+      { label: 'Send email against "Chat Control" to EU Parliament', action: 'chatcontrol' }
+    ],
+    sourcesLabel: 'Sources',
+    sourcesDescText: 'Independent and verified sources — read and share them.',
+    sources: [
+      { name: 'The Rights Forum', url: 'https://www.rightsforum.org/' },
+      { name: 'Human Rights Watch Report', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
+      { name: 'OHCHR Press Release', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
+      { name: 'Amnesty International Report', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
+      { name: 'AFSC Israeli Violations', url: 'https://afsc.org/israeli-violations' },
+      { name: 'Doctors Without Borders Report', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
+      { name: 'Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
+    ],
+    donations: [
+      { name: 'Join the Global March for Palestine', url: 'https://gmfpalestine.com/', urgent: true },
+      { name: 'Support Orphans via Qamar Charity', url: 'https://www.qamarcharity.org/', urgent: true },
+      { name: 'Help Fatima Alqolaq and her family', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
+      { name: 'Help Adel from Gaza', url: 'https://gofund.me/b57bcc02' },
+      { name: 'Help Munir Al-Omari from Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US' },
+      { name: 'Help Anas Abu Abdo from Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
+      { name: 'Help little Samia and Ameer from Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future' },
+      { name: 'Support Palestinians in their time of need', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
+    ]
+  },
+  fr: {
+    emailTitle: 'Faites entendre votre voix',
+    emailDesc: 'Un seul e-mail peut changer les choses — cela prend 30 secondes.',
+    donateTitle: 'Aidez à sauver des vies',
+    donateDesc: 'Votre don apporte une aide concrète — chaque montant compte.',
+    sourcesTitle: 'Consultez les preuves',
+    sourcesDesc: 'Rapports et sources indépendants à lire et partager.',
+    violenceSubject: 'Appel au cessez-le-feu et au respect du droit international au Moyen-Orient',
+    violenceBody: `Cher(e) Membre du Parlement,\n\nJe vous écris pour vous demander de prendre des mesures actives afin de contribuer à mettre fin aux guerres en cours au Moyen-Orient, en particulier à Gaza et au Liban.\nLa violence persistante a causé d'énormes souffrances parmi la population civile. Je vous demande respectueusement de :\n\nPlaider pour un cessez-le-feu immédiat et durable.\nSoutenir des enquêtes complètes par la Cour Pénale Internationale et d'autres instances internationales sur les violations du droit international humanitaire par toutes les parties impliquées.\nVeiller à ce qu'Israël soit tenu aux mêmes normes juridiques internationales que tout autre pays.\n\nS'opposer à toute escalade et à l'influence qui prolonge le conflit.\nDe nombreux citoyens néerlandais sont profondément préoccupés par la situation humanitaire et le risque d'instabilité régionale. Je crois que les Pays-Bas, en tant que défenseur du droit international, ont le devoir d'agir de manière cohérente et impartiale.\n\nJ'apprécierais de connaître votre position sur ce sujet et les mesures que vous comptez prendre.\n\nMerci pour votre temps et votre service.\n\nCordialement.`,
+    chatControlSubject: 'Mon opposition au projet de loi « Chat Control »',
+    chatControlBody: `Chers Membres du Parlement Européen des Pays-Bas,\n\nEn tant que citoyen(ne) européen(ne) et néerlandais(e) préoccupé(e), je m'inquiète profondément du projet de législation européenne « Chat Control ». Ce projet porte gravement atteinte aux droits fondamentaux de tous les citoyens.\n\nLa surveillance et le contrôle des messages privés constituent une violation massive de notre vie privée et du droit à la communication confidentielle. Cela compromet non seulement la vie privée de millions de citoyens innocents, mais crée également un dangereux précédent pour la surveillance au sein de l'Union Européenne.\n\nJe vous demande instamment de ne pas soutenir cette proposition.`,
+    emailActions: [
+      { label: 'Envoyer un appel au cessez-le-feu au Parlement néerlandais', action: 'violence' },
+      { label: 'Envoyer un e-mail contre « Chat Control » au Parlement européen', action: 'chatcontrol' }
+    ],
+    sourcesLabel: 'Sources',
+    sourcesDescText: 'Sources indépendantes et vérifiées — à lire et à partager.',
+    sources: [
+      { name: 'The Rights Forum', url: 'https://www.rightsforum.org/' },
+      { name: 'Rapport Human Rights Watch', url: 'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza' },
+      { name: 'Communiqué OHCHR', url: 'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied' },
+      { name: 'Rapport Amnesty International', url: 'https://www.amnesty.org/en/location/middle-east-and-north-africa/middle-east/israel-and-the-occupied-palestinian-territory/report-israel-and-the-occupied-palestinian-territory/' },
+      { name: 'AFSC Violations Israéliennes', url: 'https://afsc.org/israeli-violations' },
+      { name: 'Rapport Médecins Sans Frontières', url: 'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction' },
+      { name: 'Human Rights Network', url: 'https://www.humanrightsnetwork.org/publications/genocide-in-gaza' }
+    ],
+    donations: [
+      { name: 'Rejoignez la Marche Mondiale pour la Palestine', url: 'https://gmfpalestine.com/', urgent: true },
+      { name: 'Soutenez les orphelins via Qamar Charity', url: 'https://www.qamarcharity.org/', urgent: true },
+      { name: 'Aidez Fatima Alqolaq et sa famille', url: 'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR' },
+      { name: 'Aidez Adel de Gaza', url: 'https://gofund.me/b57bcc02' },
+      { name: 'Aidez Munir Al-Omari de Gaza', url: 'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?utm_campaign=fp_sharesheet&utm_medium=customer&utm_source=copy_link&lang=en_US' },
+      { name: 'Aidez Anas Abu Abdo de Gaza', url: 'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US' },
+      { name: 'Aidez les petits Samia et Ameer de Gaza', url: 'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future' },
+      { name: 'Soutenez les Palestiniens dans le besoin', url: 'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US' }
+    ]
+  }
+};
+
+/* ===== HELPERS ===== */
+const arrowSvg = '<svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
+
+function makeLink(item) {
+  const a = document.createElement('a');
+  a.className = 'link-item';
+  a.href = item.url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.innerHTML = (item.urgent ? '<span class="link-prefix urgent">!</span>' : '') + item.name + arrowSvg;
+  return a;
+}
+
+function makeEmailButton(item) {
+  const btn = document.createElement('button');
+  btn.className = 'link-item';
+  btn.type = 'button';
+  btn.innerHTML = '<span class="link-prefix org">✉</span>' + item.label + arrowSvg;
+  btn.addEventListener('click', () => {
+    if (item.action === 'violence') sendEmail('violence');
+    else if (item.action === 'chatcontrol') sendEmail('chatcontrol');
+  });
+  return btn;
+}
+
+function sendEmail(type) {
+  const t = i18n[lang];
+  let to, subject, body;
+
+  if (type === 'violence') {
+    to = recipients;
+    subject = t.violenceSubject;
+    body = t.violenceBody;
+  } else {
+    to = euroRecipients;
+    subject = t.chatControlSubject;
+    body = t.chatControlBody;
+  }
+
+  const chunkSize = 25;
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body);
+
+  for (let i = 0; i < to.length; i += chunkSize) {
+    const chunk = to.slice(i, i + chunkSize).join(',');
+    const href = `mailto:${chunk}?subject=${encodedSubject}&body=${encodedBody}`;
+    if (i === 0) {
+      window.location.href = href;
+    } else {
+      setTimeout(() => {
         const a = document.createElement('a');
-        a.href = item.url || '#';
-        a.dataset.action = item.action;
-        a.textContent = item.name;
-        if (item.url) a.target = '_blank';
-        container.appendChild(a);
-      });
+        a.href = href;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }, i * 50);
     }
-    function applyLang() {
-      const t = i18n[lang];
-      ui.btn1.textContent = t.btn1;
-      ui.btn1sub.textContent = t.btn1sub;
-      ui.btn2.textContent = t.btn2;
-      ui.btn2sub.textContent = t.btn2sub;
-      ui.btn3.textContent = t.btn3;
-      ui.panelTitle.textContent = t.panelTitle;
-      ui.referenceText.textContent = t.referenceText;
-      ui.sectionTitle.textContent = t.sectionTitle;
-      ui.sourceText.textContent = t.sourceText;
-      document.documentElement.lang = lang;
-      renderLinks(ui.emailLinks, t.emailLinks);
-      renderLinks(ui.donationLinks, donations[lang]);
-      renderLinks(ui.referenceLinks, t.referenceLinks);
-      renderLinks(ui.evidenceLinks, sources[lang]);
+  }
+}
+
+/* ===== ACCORDION ===== */
+document.querySelectorAll('.action-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const card = trigger.closest('.action-card');
+    const panel = card.querySelector('.action-panel');
+    const isOpen = card.classList.contains('open');
+
+    document.querySelectorAll('.action-card.open').forEach(openCard => {
+      openCard.classList.remove('open');
+      const openPanel = openCard.querySelector('.action-panel');
+      openPanel.style.maxHeight = null;
+      openCard.querySelector('.action-trigger').setAttribute('aria-expanded', 'false');
+    });
+
+    if (!isOpen) {
+      card.classList.add('open');
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      trigger.setAttribute('aria-expanded', 'true');
     }
-    function sendViolenceEmail() {
-      const t = i18n[lang];
-      const to = recipients.join(',');
-      const bcc = 'hindrajab1948@gmail.com';
-      const subject = encodeURIComponent(t.subject);
-      const body = encodeURIComponent(t.body);
-      const href = `mailto:${to}?bcc=${encodeURIComponent(bcc)}&subject=${subject}&body=${body}`;
-      const a = document.createElement('a');
-      a.href = href;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-    function sendChatControlEmail() {
-      const subject = lang === 'nl' ? 'Mijn Stem TEGEN het Chat Control Wetsvoorstel' : 'My Voice AGAINST the Chat Control Legislative Bill';
-      const body = lang === 'nl' ?
-        `Beste Europarlementariërs van Nederland,
-Als bezorgde Nederlandse en Europese burger maak ik mij grote zorgen over het voorgestelde EU-wetsvoorstel inzake "Chat Control". Ik ben ernstig verontrust over de manier waarop dit voorstel de fundamentele rechten van alle burgers aantast.
-Het doorlichten en controleren van privéberichten komt neer op een grootschalige inbreuk op onze persoonlijke levenssfeer en tast het recht op vertrouwelijke communicatie aan. Dit ondermijnt niet alleen de privacy van miljoenen onschuldige burgers, maar schept ook een gevaarlijk precedent voor toezicht en controle binnen de Europese Unie.
-Ik verzoek u dringend om dit wetsvoorstel niet te steunen.` :
-        `Dear Members of the European Parliament from the Netherlands,
-As a concerned Dutch and European citizen, I am deeply worried about the proposed EU legislation on "Chat Control." I am gravely concerned about the way this proposal undermines the fundamental rights of all citizens.
-The scanning and monitoring of private messages amounts to a large-scale violation of our personal privacy and infringes upon the right to confidential communication. This not only compromises the privacy of millions of innocent citizens but also sets a dangerous precedent for surveillance and control within the European Union.
-I urgently appeal to you not to support this proposal.`;
-      const to = euroRecipients.join(',');
-      const bcc = 'hindrajab1948@gmail.com';
-      const href = `mailto:${to}?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      const a = document.createElement('a');
-      a.href = href;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-    ui.flags.forEach(btn => {
-      btn.addEventListener('click', () => {
-        ui.flags.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        lang = btn.dataset.lang;
-        applyLang();
-      });
-    });
-    ui.btn1.addEventListener('click', () => {
-      const isVisible = ui.emailPanel.style.display === 'flex';
-      ui.emailPanel.style.display = isVisible ? 'none' : 'flex';
-      ui.btn1sub.style.display = isVisible ? 'block' : 'none';
-      if (!isVisible) {
-        ui.donationPanel.style.display = 'none';
-        ui.evidencePanel.style.display = 'none';
-        ui.btn2sub.style.display = 'block';
-      }
-    });
-    ui.btn2.addEventListener('click', () => {
-      const isVisible = ui.donationPanel.style.display === 'flex';
-      ui.donationPanel.style.display = isVisible ? 'none' : 'flex';
-      ui.btn2sub.style.display = isVisible ? 'block' : 'none';
-      if (!isVisible) {
-        ui.emailPanel.style.display = 'none';
-        ui.evidencePanel.style.display = 'none';
-        ui.btn1sub.style.display = 'block';
-      }
-    });
-    ui.btn3.addEventListener('click', () => {
-      const isVisible = ui.evidencePanel.style.display === 'flex';
-      ui.evidencePanel.style.display = isVisible ? 'none' : 'flex';
-      if (!isVisible) {
-        ui.emailPanel.style.display = 'none';
-        ui.donationPanel.style.display = 'none';
-        ui.btn1sub.style.display = 'block';
-        ui.btn2sub.style.display = 'block';
-      }
-    });
-    ui.emailLinks.addEventListener('click', (e) => {
-      if (e.target.dataset.action === 'sendViolenceEmail') {
-        e.preventDefault();
-        sendViolenceEmail();
-      } else if (e.target.dataset.action === 'sendChatControlEmail') {
-        e.preventDefault();
-        sendChatControlEmail();
-      }
-    });
-    applyLang();
-  </script>
+  });
+});
+
+/* ===== LANGUAGE ===== */
+let lang = 'nl';
+
+function render() {
+  const t = i18n[lang];
+
+  document.documentElement.lang = lang;
+  document.getElementById('email-title').textContent = t.emailTitle;
+  document.getElementById('email-desc').textContent = t.emailDesc;
+  document.getElementById('donate-title').textContent = t.donateTitle;
+  document.getElementById('donate-desc').textContent = t.donateDesc;
+  document.getElementById('sources-title').textContent = t.sourcesTitle;
+  document.getElementById('sources-desc').textContent = t.sourcesDesc;
+
+  const emailContainer = document.getElementById('email-links');
+  emailContainer.innerHTML = '';
+  t.emailActions.forEach(item => emailContainer.appendChild(makeEmailButton(item)));
+
+  const donateContainer = document.getElementById('donate-links');
+  donateContainer.innerHTML = '';
+  t.donations.forEach(item => donateContainer.appendChild(makeLink(item)));
+
+  const sourcesContainer = document.getElementById('sources-content');
+  sourcesContainer.innerHTML = '';
+
+  const srcTitle = document.createElement('div');
+  srcTitle.className = 'panel-section-title';
+  srcTitle.textContent = t.sourcesLabel;
+  sourcesContainer.appendChild(srcTitle);
+
+  const srcDesc = document.createElement('div');
+  srcDesc.className = 'panel-section-desc';
+  srcDesc.textContent = t.sourcesDescText;
+  sourcesContainer.appendChild(srcDesc);
+
+  t.sources.forEach(item => sourcesContainer.appendChild(makeLink(item)));
+
+  const openPanel = document.querySelector('.action-card.open .action-panel');
+  if (openPanel) {
+    openPanel.style.maxHeight = openPanel.scrollHeight + 'px';
+  }
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lang = btn.dataset.lang;
+    render();
+  });
+});
+
+render();
+</script>
 </body>
 </html>
-
