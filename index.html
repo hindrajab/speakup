@@ -7,21 +7,32 @@
   <meta property="og:title" content="Speak Up for Palestine 🍉">
   <meta property="og:description" content="Stuur een e-mail, doneer, en deel de waarheid. Jouw stem telt.">
   <meta property="og:type" content="website">
-  <meta name="description" content="Actie ondernemen voor Palestina. Stuur e-mails naar volksvertegenwoordigers, doneer, en bekijk bronnen.">
+  <meta name="description" content="Actie ondernemen voor Palestina. Stuur e-mails, doneer, en bekijk bronnen.">
   <meta name="theme-color" content="#0a0a0a">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--black:#0a0a0a;--white:#f0f0ec;--green:#007a3d;--red:#c1272d;--grey:#8a8a8a;--card-bg:rgba(16,16,16,0.85);--border:rgba(255,255,255,0.08);--radius:6px}
     html{scroll-behavior:smooth}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--black);color:var(--white);min-height:100vh;min-height:100dvh;display:flex;justify-content:center;-webkit-font-smoothing:antialiased}
-    body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 20% 0%,rgba(193,39,45,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(0,122,61,0.12) 0%,transparent 50%),var(--black)}
+    body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:url('gaza.jpg') center/cover no-repeat;opacity:0.18}
+    body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,10,0.85) 0%,rgba(0,122,61,0.08) 50%,rgba(193,39,45,0.1) 100%)}
     .page{position:relative;z-index:1;width:100%;max-width:480px;padding:1.5rem 1.25rem 3rem;display:flex;flex-direction:column;gap:1.25rem}
     .view{display:none;flex-direction:column;gap:1rem}.view.active{display:flex}
-    .lang-toggle{display:flex;gap:0;border:1px solid var(--border);border-radius:100px;overflow:hidden;align-self:center}
+
+    /* Top bar: lang + share */
+    .top-bar{display:flex;align-items:center;justify-content:center;gap:0.6rem}
+    .lang-toggle{display:flex;gap:0;border:1px solid var(--border);border-radius:100px;overflow:hidden}
     .lang-btn{background:transparent;border:none;color:var(--grey);font-size:0.8rem;font-weight:600;padding:0.45rem 0.85rem;cursor:pointer;transition:all 0.2s ease;font-family:inherit;display:flex;align-items:center;gap:0.35rem}
     .lang-btn .flag-img{width:16px;height:12px;border-radius:1px;object-fit:cover}
     .lang-btn.active{background:var(--white);color:var(--black)}
     .lang-btn:not(.active):hover{background:rgba(255,255,255,0.06)}
+    .share-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--grey);cursor:pointer;transition:all 0.15s ease;flex-shrink:0}
+    .share-btn:hover{background:rgba(255,255,255,0.06);color:var(--white)}
+    .share-btn svg{width:16px;height:16px}
+    .share-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:0.5rem 1.2rem;border-radius:100px;font-size:0.8rem;font-weight:600;z-index:99;opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+    .share-toast.show{opacity:1}
+
+    /* Hero */
     .hero-card{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
     .hero-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
     .hero-btn{width:100%;padding:0.85rem 1rem;background:none;border:none;border-top:1px solid var(--border);color:var(--white);font-family:inherit;font-size:0.9rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.6rem;transition:background 0.15s ease;text-align:left;min-height:48px}
@@ -29,16 +40,30 @@
     .hero-btn svg{flex-shrink:0;width:18px;height:18px;color:var(--grey);margin-left:auto}
     .flag-bar{display:flex;height:3px;border-radius:2px;overflow:hidden}.flag-bar span{flex:1}
     .fb-black{background:#1a1a1a}.fb-white{background:var(--white)}.fb-green{background:var(--green)}.fb-red{background:var(--red)}
+
+    /* Action row */
     .action-row{display:flex;gap:0.6rem}
     .action-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.4rem;padding:1rem 0.5rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--white);font-family:inherit;cursor:pointer;transition:background 0.15s ease;min-height:56px;text-decoration:none}
     .action-btn:hover{background:rgba(255,255,255,0.04)}.action-btn:active{background:rgba(255,255,255,0.07)}
-    .action-btn .action-icon{font-size:1.3rem;line-height:1}.action-btn .action-label{font-size:0.82rem;font-weight:600;text-align:center}
-    .sources-btn{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.1rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--white);font-family:inherit;font-size:0.88rem;font-weight:600;cursor:pointer;transition:background 0.15s ease;min-height:48px;width:100%;text-align:left}
-    .sources-btn:hover{background:rgba(255,255,255,0.04)}.sources-btn svg{flex-shrink:0;width:18px;height:18px;color:var(--grey);margin-left:auto}
+    .action-btn .action-icon{font-size:1.3rem;line-height:1}.action-btn .action-label{font-size:0.8rem;font-weight:600;text-align:center}
+
+    /* Sources accordion (on main page) */
+    .accordion{border-radius:var(--radius);border:1px solid var(--border);background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden}
+    .accordion-trigger{width:100%;display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.1rem;background:none;border:none;color:var(--white);font-family:inherit;font-size:0.88rem;font-weight:600;cursor:pointer;transition:background 0.15s ease;min-height:48px;text-align:left}
+    .accordion-trigger:hover{background:rgba(255,255,255,0.04)}
+    .accordion-trigger svg{flex-shrink:0;width:18px;height:18px;color:var(--grey);margin-left:auto;transition:transform 0.25s ease}
+    .accordion.open .accordion-trigger svg{transform:rotate(180deg)}
+    .accordion-panel{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+    .accordion-inner{padding:0 1.1rem 1rem;display:flex;flex-direction:column;gap:0.5rem}
+    .acc-divider{height:1px;background:var(--border);margin-bottom:0.3rem}
+
+    /* Back button */
     .back-btn{display:inline-flex;align-items:center;gap:0.4rem;background:none;border:1px solid var(--border);border-radius:100px;color:var(--white);font-family:inherit;font-size:0.8rem;font-weight:600;padding:0.45rem 0.9rem 0.45rem 0.65rem;cursor:pointer;transition:all 0.15s ease;align-self:flex-start}
     .back-btn:hover{background:rgba(255,255,255,0.06)}.back-btn svg{width:16px;height:16px}
     .sub-title{font-size:1.1rem;font-weight:700;line-height:1.3}
     .sub-desc{font-size:0.82rem;color:var(--grey);line-height:1.5}
+
+    /* Links */
     .link-item{display:flex;flex-direction:column;gap:0.2rem;padding:0.7rem 0.75rem;border-radius:5px;background:rgba(255,255,255,0.03);color:var(--white);text-decoration:none;font-size:0.82rem;font-weight:500;line-height:1.4;transition:background 0.15s ease;cursor:pointer;border:none;font-family:inherit;text-align:left;width:100%;min-height:44px}
     .link-item:hover{background:rgba(255,255,255,0.07)}.link-item:active{background:rgba(255,255,255,0.1)}
     .link-item .link-name{display:flex;align-items:center;gap:0.5rem}
@@ -48,12 +73,28 @@
     .link-prefix.urgent{background:rgba(193,39,45,0.2);color:#e05555}
     .link-prefix.org{background:rgba(0,122,61,0.15);color:#4dbd7a}
     .links-list{display:flex;flex-direction:column;gap:0.5rem}
+
+    /* Story */
     .story-content{font-size:0.85rem;line-height:1.7;color:var(--white)}
     .story-content p{margin-bottom:1rem}
     .story-content blockquote{border-left:3px solid var(--green);padding:0.6rem 0.8rem;margin:1rem 0;background:rgba(255,255,255,0.03);border-radius:0 4px 4px 0;font-style:italic;font-size:0.82rem;color:var(--grey)}
     .story-content h2{font-size:1rem;font-weight:700;margin:1.5rem 0 0.5rem;color:var(--white)}
     .story-content h3{font-size:0.9rem;font-weight:700;margin:1.2rem 0 0.4rem;color:var(--white)}
-    .story-source{font-size:0.75rem;color:var(--grey);margin-top:1rem}.story-source a{color:var(--grey);text-decoration:underline}
+    .story-source{font-size:0.75rem;color:var(--grey);margin:1rem 0;padding:0.5rem 0;border-top:1px solid var(--border)}.story-source a{color:var(--grey);text-decoration:underline}
+
+    /* Chat transcript */
+    .chat-transcript{display:flex;flex-direction:column;gap:0.4rem;margin:1rem 0;padding:0.8rem;background:rgba(255,255,255,0.02);border-radius:var(--radius);border:1px solid var(--border)}
+    .chat-line{font-size:0.8rem;line-height:1.5;padding:0.35rem 0.6rem;border-radius:6px;max-width:88%}
+    .chat-line.control{background:rgba(0,122,61,0.12);color:var(--white);align-self:flex-start}
+    .chat-line.ambulance{background:rgba(255,255,255,0.06);color:var(--white);align-self:flex-end}
+    .chat-line.event{text-align:center;color:var(--red);font-weight:700;font-size:0.78rem;align-self:center;padding:0.5rem}
+    .chat-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--grey);margin-bottom:0.1rem}
+
+    /* YT button */
+    .yt-btn{display:flex;align-items:center;gap:0.6rem;padding:0.7rem 0.85rem;border-radius:5px;background:rgba(193,39,45,0.1);border:1px solid rgba(193,39,45,0.2);color:var(--white);text-decoration:none;font-size:0.82rem;font-weight:600;transition:background 0.15s ease;margin:0.8rem 0}
+    .yt-btn:hover{background:rgba(193,39,45,0.18)}
+    .yt-icon{width:20px;height:20px;flex-shrink:0;color:var(--red)}
+
     .social-footer{display:flex;justify-content:center;padding-top:0.5rem}
     .social-link{display:flex;align-items:center;gap:0.4rem;color:var(--grey);text-decoration:none;font-size:0.8rem;font-weight:600;transition:color 0.15s ease}
     .social-link:hover{color:var(--white)}.social-link svg{width:18px;height:18px}
@@ -62,11 +103,17 @@
 </head>
 <body>
 <div class="page">
+  <!-- MAIN VIEW -->
   <div class="view active" id="view-main">
-    <div class="lang-toggle">
-      <button class="lang-btn active" data-lang="nl"><img src="nl.svg" alt="" class="flag-img"> NL</button>
-      <button class="lang-btn" data-lang="en"><img src="gb.svg" alt="" class="flag-img"> EN</button>
-      <button class="lang-btn" data-lang="fr"><img src="fr.svg" alt="" class="flag-img"> FR</button>
+    <div class="top-bar">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="nl"><img src="nl.svg" alt="" class="flag-img"> NL</button>
+        <button class="lang-btn" data-lang="en"><img src="gb.svg" alt="" class="flag-img"> EN</button>
+        <button class="lang-btn" data-lang="fr"><img src="fr.svg" alt="" class="flag-img"> FR</button>
+      </div>
+      <button class="share-btn" id="share-btn" aria-label="Share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
     </div>
     <div class="hero-card">
       <img src="rajab.png" alt="Hind Rajab" class="hero-img">
@@ -77,81 +124,64 @@
       <button class="action-btn" data-view="view-email"><span class="action-icon">✉️</span><span class="action-label" id="email-label"></span></button>
       <button class="action-btn" data-view="view-donate"><span class="action-icon">💚</span><span class="action-label" id="donate-label"></span></button>
     </div>
-    <button class="sources-btn" data-view="view-sources"><span>📄</span><span id="sources-label"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <!-- Sources accordion -->
+    <div class="accordion" id="sources-accordion">
+      <button class="accordion-trigger" id="sources-trigger"><span>📄</span><span id="sources-label"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <div class="accordion-panel" id="sources-panel"><div class="accordion-inner"><div class="acc-divider"></div><div class="links-list" id="sources-links"></div></div></div>
+    </div>
     <div class="social-footer">
       <a href="https://www.instagram.com/hindrajabscar" target="_blank" rel="noopener" class="social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@hindrajabscar</a>
     </div>
   </div>
+  <!-- EMAIL VIEW -->
   <div class="view" id="view-email"><button class="back-btn" data-view="view-main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span class="back-text"></span></button><div class="sub-title" id="email-title"></div><div class="sub-desc" id="email-desc"></div><div class="links-list" id="email-links"></div></div>
+  <!-- DONATE VIEW -->
   <div class="view" id="view-donate"><button class="back-btn" data-view="view-main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span class="back-text"></span></button><div class="sub-title" id="donate-title"></div><div class="sub-desc" id="donate-desc"></div><div class="links-list" id="donate-links"></div></div>
-  <div class="view" id="view-sources"><button class="back-btn" data-view="view-main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span class="back-text"></span></button><div class="sub-title" id="sources-title"></div><div class="sub-desc" id="sources-desc"></div><div class="links-list" id="sources-links"></div></div>
+  <!-- STORY VIEW -->
   <div class="view" id="view-story"><button class="back-btn" data-view="view-main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span class="back-text"></span></button><div class="story-content" id="story-content"></div></div>
 </div>
+<div class="share-toast" id="share-toast"></div>
 <script>
 /* ===== RECIPIENTS ===== */
-const recipients = [
-  'a.bergkamp@tweedekamer.nl','a.biekman@tweedekamer.nl','a.flach@tweedekamer.nl',
-  'b.becker@tweedekamer.nl','b.bikkers@tweedekamer.nl','b.vdijk@tweedekamer.nl',
-  'c.vbrenk@tweedekamer.nl','c.vderplas@tweedekamer.nl','d.boomsma@tweedekamer.nl',
-  'd.ceder@tweedekamer.nl','d.ergin@tweedekamer.nl','d.graus@tweedekamer.nl',
-  'd.vdberg@tweedekamer.nl','d.vdijk@tweedekamer.nl','e.armut@tweedekamer.nl',
-  'e.lahlah@tweedekamer.nl','e.vark@tweedekamer.nl','e.vdijk@tweedekamer.nl',
-  'f.abdi@tweedekamer.nl','f.belhirch@tweedekamer.nl','f.ouderkerk@tweedekamer.nl',
-  'g.vmeijeren@tweedekamer.nl','g.wilders@tweedekamer.nl','h.bevers@tweedekamer.nl',
-  'h.bontenbal@tweedekamer.nl','h.dhoop@tweedekamer.nl','h.dijk@tweedekamer.nl',
-  'h.heutink@tweedekamer.nl','h.spronk@tweedekamer.nl','h.vmeijeren@tweedekamer.nl',
-  'i.coenradie@tweedekamer.nl','i.elabassi@tweedekamer.nl','i.vdijk@tweedekamer.nl',
-  'j.buhler@tweedekamer.nl','j.bushoff@tweedekamer.nl','j.dijk@tweedekamer.nl',
-  'j.eerdmans@tweedekamer.nl','j.klaver@tweedekamer.nl','j.mooiman@tweedekamer.nl',
-  'j.paternotte@tweedekamer.nl','j.vmeijeren@tweedekamer.nl','k.vderhoeven@tweedekamer.nl',
-  'l.boelsma@tweedekamer.nl','l.bromet@tweedekamer.nl','l.dassen@tweedekamer.nl',
-  'l.vdijk@tweedekamer.nl','m.bamenga@tweedekamer.nl','m.bikker@tweedekamer.nl',
-  'm.boon@tweedekamer.nl','m.bosma@tweedekamer.nl','m.dbeer@tweedekamer.nl',
-  'm.faber@tweedekamer.nl','m.goudzwaard@tweedekamer.nl','m.jallow@tweedekamer.nl',
-  'm.keijzer@tweedekamer.nl','m.vdermeer@tweedekamer.nl','m.vrooijen@tweedekamer.nl',
-  'p.dgroot@tweedekamer.nl','p.grinwis@tweedekamer.nl','p.omtzigt@tweedekamer.nl',
-  'p.vduijvenvoorde@tweedekamer.nl','p.vrijn@tweedekamer.nl','r.brekelmans@tweedekamer.nl',
-  'r.claassen@tweedekamer.nl','r.clemminck@tweedekamer.nl','r.dekker@tweedekamer.nl',
-  'r.droon@tweedekamer.nl','r.meer@tweedekamer.nl','r.vasten@tweedekamer.nl',
-  'r.vmeenen@tweedekamer.nl','s.beckerman@tweedekamer.nl','s.ceulemans@tweedekamer.nl',
-  's.dobbe@tweedekamer.nl','s.elboujdaini@tweedekamer.nl','s.hamstra@tweedekamer.nl',
-  's.maatoug@tweedekamer.nl','s.rozemond@tweedekamer.nl','s.vbaarle@tweedekamer.nl',
-  's.vhaaften@tweedekamer.nl','s.vrijn@tweedekamer.nl','t.baudet@tweedekamer.nl',
-  't.vcampen@tweedekamer.nl','t.vdbrink@tweedekamer.nl','t.vdelaan@tweedekamer.nl',
-  't.vdijck@tweedekamer.nl','t.vrijn@tweedekamer.nl','u.ellian@tweedekamer.nl',
-  'w.veijk@tweedekamer.nl'
-];
-const euroRecipients = [
-  'dirk.gotink@europarl.europa.eu','bart.groothuis@europarl.europa.eu','anja.hazekamp@europarl.europa.eu',
-  'sebastian.kruis@europarl.europa.eu','jeroen.lenaers@europarl.europa.eu','marit.maij@europarl.europa.eu',
-  'thijs.reuten@europarl.europa.eu','bert-jan.ruissen@europarl.europa.eu','sander.smit@europarl.europa.eu',
-  'sebastiaan.stoteler@europarl.europa.eu','tineke.strik@europarl.europa.eu'
-];
+var recipients=['a.bergkamp@tweedekamer.nl','a.biekman@tweedekamer.nl','a.flach@tweedekamer.nl','b.becker@tweedekamer.nl','b.bikkers@tweedekamer.nl','b.vdijk@tweedekamer.nl','c.vbrenk@tweedekamer.nl','c.vderplas@tweedekamer.nl','d.boomsma@tweedekamer.nl','d.ceder@tweedekamer.nl','d.ergin@tweedekamer.nl','d.graus@tweedekamer.nl','d.vdberg@tweedekamer.nl','d.vdijk@tweedekamer.nl','e.armut@tweedekamer.nl','e.lahlah@tweedekamer.nl','e.vark@tweedekamer.nl','e.vdijk@tweedekamer.nl','f.abdi@tweedekamer.nl','f.belhirch@tweedekamer.nl','f.ouderkerk@tweedekamer.nl','g.vmeijeren@tweedekamer.nl','g.wilders@tweedekamer.nl','h.bevers@tweedekamer.nl','h.bontenbal@tweedekamer.nl','h.dhoop@tweedekamer.nl','h.dijk@tweedekamer.nl','h.heutink@tweedekamer.nl','h.spronk@tweedekamer.nl','h.vmeijeren@tweedekamer.nl','i.coenradie@tweedekamer.nl','i.elabassi@tweedekamer.nl','i.vdijk@tweedekamer.nl','j.buhler@tweedekamer.nl','j.bushoff@tweedekamer.nl','j.dijk@tweedekamer.nl','j.eerdmans@tweedekamer.nl','j.klaver@tweedekamer.nl','j.mooiman@tweedekamer.nl','j.paternotte@tweedekamer.nl','j.vmeijeren@tweedekamer.nl','k.vderhoeven@tweedekamer.nl','l.boelsma@tweedekamer.nl','l.bromet@tweedekamer.nl','l.dassen@tweedekamer.nl','l.vdijk@tweedekamer.nl','m.bamenga@tweedekamer.nl','m.bikker@tweedekamer.nl','m.boon@tweedekamer.nl','m.bosma@tweedekamer.nl','m.dbeer@tweedekamer.nl','m.faber@tweedekamer.nl','m.goudzwaard@tweedekamer.nl','m.jallow@tweedekamer.nl','m.keijzer@tweedekamer.nl','m.vdermeer@tweedekamer.nl','m.vrooijen@tweedekamer.nl','p.dgroot@tweedekamer.nl','p.grinwis@tweedekamer.nl','p.omtzigt@tweedekamer.nl','p.vduijvenvoorde@tweedekamer.nl','p.vrijn@tweedekamer.nl','r.brekelmans@tweedekamer.nl','r.claassen@tweedekamer.nl','r.clemminck@tweedekamer.nl','r.dekker@tweedekamer.nl','r.droon@tweedekamer.nl','r.meer@tweedekamer.nl','r.vasten@tweedekamer.nl','r.vmeenen@tweedekamer.nl','s.beckerman@tweedekamer.nl','s.ceulemans@tweedekamer.nl','s.dobbe@tweedekamer.nl','s.elboujdaini@tweedekamer.nl','s.hamstra@tweedekamer.nl','s.maatoug@tweedekamer.nl','s.rozemond@tweedekamer.nl','s.vbaarle@tweedekamer.nl','s.vhaaften@tweedekamer.nl','s.vrijn@tweedekamer.nl','t.baudet@tweedekamer.nl','t.vcampen@tweedekamer.nl','t.vdbrink@tweedekamer.nl','t.vdelaan@tweedekamer.nl','t.vdijck@tweedekamer.nl','t.vrijn@tweedekamer.nl','u.ellian@tweedekamer.nl','w.veijk@tweedekamer.nl'];
+var euroRecipients=['dirk.gotink@europarl.europa.eu','bart.groothuis@europarl.europa.eu','anja.hazekamp@europarl.europa.eu','sebastian.kruis@europarl.europa.eu','jeroen.lenaers@europarl.europa.eu','marit.maij@europarl.europa.eu','thijs.reuten@europarl.europa.eu','bert-jan.ruissen@europarl.europa.eu','sander.smit@europarl.europa.eu','sebastiaan.stoteler@europarl.europa.eu','tineke.strik@europarl.europa.eu'];
 
 /* ===== I18N ===== */
-const i18n = {nl:{},en:{},fr:{}};
+var D={nl:{},en:{},fr:{}};
 
-// -- NL --
-i18n.nl.back='Terug';
-i18n.nl.heroLabel='Het verhaal van Hind Rajab';
-i18n.nl.emailLabel='Laat je stem horen';
-i18n.nl.emailTitle='Laat je stem horen';
-i18n.nl.emailDesc='Een e-mail kan het verschil maken. Het kost 30 seconden.';
-i18n.nl.donateLabel='Help nu direct';
-i18n.nl.donateTitle='Help nu direct';
-i18n.nl.donateDesc='Jouw bijdrage redt levens. Elk bedrag telt.';
-i18n.nl.sourcesLabel='Bekijk de feiten';
-i18n.nl.sourcesTitle='Bekijk de feiten';
-i18n.nl.sourcesDesc='Onafhankelijke en geverifieerde bronnen. Lees en deel ze.';
-i18n.nl.violenceSubject='Oproep tot staakt-het-vuren en internationale rechtsbescherming in het Midden-Oosten';
-i18n.nl.violenceBody='Geachte Kamerlid,\n\nIk schrijf u om u op te roepen concrete stappen te zetten om een einde te maken aan de oorlogen in het Midden-Oosten, met name in Gaza en Libanon.\nHet aanhoudende geweld veroorzaakt enorm veel leed onder de burgerbevolking. Ik verzoek u vriendelijk om:\n\nTe pleiten voor een onmiddellijk en duurzaam staakt-het-vuren.\nVolledige onderzoeken te steunen door het Internationaal Strafhof (ICC) en andere internationale instanties naar mogelijke schendingen van het humanitair oorlogsrecht door alle betrokken partijen.\n\nIsra\u00ebl te houden aan dezelfde internationale rechtsnormen als elk ander land.\nVerdere escalatie tegen te gaan en invloed die het conflict verlengt te beperken.\n\nVeel Nederlandse burgers maken zich ernstig zorgen over de humanitaire situatie en het risico op verdere regionale destabilisatie. Nederland, als groot voorstander van de internationale rechtsorde, heeft volgens mij de plicht om consistent en onpartijdig op te treden.\n\nIk zou het op prijs stellen te vernemen wat uw standpunt is en welke stappen u concreet wilt zetten.\n\nBij voorbaat dank voor uw tijd en inzet voor ons land.\n\nMet vriendelijke groeten.';
-i18n.nl.chatControlSubject='Mijn Stem TEGEN het Chat Control Wetsvoorstel';
-i18n.nl.chatControlBody='Beste Europarlementari\u00ebrs van Nederland,\n\nAls bezorgde Nederlandse en Europese burger maak ik mij grote zorgen over het voorgestelde EU-wetsvoorstel inzake "Chat Control". Ik ben ernstig verontrust over de manier waarop dit voorstel de fundamentele rechten van alle burgers aantast.\n\nHet doorlichten en controleren van priv\u00e9berichten komt neer op een grootschalige inbreuk op onze persoonlijke levenssfeer en tast het recht op vertrouwelijke communicatie aan. Dit ondermijnt niet alleen de privacy van miljoenen onschuldige burgers, maar schept ook een gevaarlijk precedent voor toezicht en controle binnen de Europese Unie.\n\nIk verzoek u dringend om dit wetsvoorstel niet te steunen.';
-i18n.nl.emailActions=[
+/* --- Chat transcript HTML (shared structure, translated labels) --- */
+function chatHTML(c,a,ev){
+  return '<div class="chat-transcript">'+
+    '<div class="chat-line control"><div class="chat-label">'+c+'</div>'+arguments[3]+'</div>'+
+    '<div class="chat-line ambulance"><div class="chat-label">'+a+'</div>'+arguments[4]+'</div>'+
+    '<div class="chat-line control"><div class="chat-label">'+c+'</div>'+arguments[5]+'</div>'+
+    '<div class="chat-line ambulance"><div class="chat-label">'+a+'</div>'+arguments[6]+'</div>'+
+    '<div class="chat-line ambulance"><div class="chat-label">'+a+'</div>'+arguments[7]+'</div>'+
+    '<div class="chat-line event">'+ev+'</div></div>';
+}
+
+var ytSvg='<svg class="yt-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.5 31.5 0 000 12a31.5 31.5 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31.5 31.5 0 0024 12a31.5 31.5 0 00-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>';
+
+// ======== NL ========
+D.nl.back='Terug';
+D.nl.heroLabel='Het verhaal van Hind Rajab';
+D.nl.emailLabel='Help met je stem';
+D.nl.emailTitle='Help met je stem';
+D.nl.emailDesc='Geen geld nodig. Een e-mail naar de Tweede Kamer kost 30 seconden en maakt verschil.';
+D.nl.donateLabel='Help met een donatie';
+D.nl.donateTitle='Help met een donatie';
+D.nl.donateDesc='Jouw bijdrage redt levens. Elk bedrag telt.';
+D.nl.sourcesLabel='Bekijk de feiten';
+D.nl.shareCopied='Link gekopieerd!';
+D.nl.violenceSubject='Oproep tot staakt-het-vuren en internationale rechtsbescherming in het Midden-Oosten';
+D.nl.violenceBody='Geachte Kamerlid,\n\nIk schrijf u om u op te roepen concrete stappen te zetten om een einde te maken aan de oorlogen in het Midden-Oosten, met name in Gaza en Libanon.\nHet aanhoudende geweld veroorzaakt enorm veel leed onder de burgerbevolking. Ik verzoek u vriendelijk om:\n\nTe pleiten voor een onmiddellijk en duurzaam staakt-het-vuren.\nVolledige onderzoeken te steunen door het Internationaal Strafhof (ICC) en andere internationale instanties naar mogelijke schendingen van het humanitair oorlogsrecht door alle betrokken partijen.\n\nIsra\u00ebl te houden aan dezelfde internationale rechtsnormen als elk ander land.\nVerdere escalatie tegen te gaan en invloed die het conflict verlengt te beperken.\n\nVeel Nederlandse burgers maken zich ernstig zorgen over de humanitaire situatie en het risico op verdere regionale destabilisatie. Nederland, als groot voorstander van de internationale rechtsorde, heeft volgens mij de plicht om consistent en onpartijdig op te treden.\n\nIk zou het op prijs stellen te vernemen wat uw standpunt is en welke stappen u concreet wilt zetten.\n\nBij voorbaat dank voor uw tijd en inzet voor ons land.\n\nMet vriendelijke groeten.';
+D.nl.chatControlSubject='Mijn Stem TEGEN het Chat Control Wetsvoorstel';
+D.nl.chatControlBody='Beste Europarlementari\u00ebrs van Nederland,\n\nAls bezorgde Nederlandse en Europese burger maak ik mij grote zorgen over het voorgestelde EU-wetsvoorstel inzake "Chat Control". Ik ben ernstig verontrust over de manier waarop dit voorstel de fundamentele rechten van alle burgers aantast.\n\nHet doorlichten en controleren van priv\u00e9berichten komt neer op een grootschalige inbreuk op onze persoonlijke levenssfeer en tast het recht op vertrouwelijke communicatie aan. Dit ondermijnt niet alleen de privacy van miljoenen onschuldige burgers, maar schept ook een gevaarlijk precedent voor toezicht en controle binnen de Europese Unie.\n\nIk verzoek u dringend om dit wetsvoorstel niet te steunen.';
+D.nl.emailActions=[
   {label:'Stuur oproep tot staakt-het-vuren naar de Tweede Kamer',desc:'Voorgeschreven brief naar 88 Kamerleden over Gaza en Libanon.',action:'violence'},
   {label:'Stuur mail tegen "Chat Control" naar het EU-Parlement',desc:'Tegen het EU-wetsvoorstel dat priv\u00e9berichten wil scannen.',action:'chatcontrol'}
 ];
-i18n.nl.sources=[
+D.nl.sources=[
   {name:'The Rights Forum',url:'https://www.rightsforum.org/'},
   {name:'Human Rights Watch Rapport',url:'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza'},
   {name:'OHCHR Persbericht',url:'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied'},
@@ -160,44 +190,48 @@ i18n.nl.sources=[
   {name:'Artsen zonder Grenzen Rapport',url:'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction'},
   {name:'Human Rights Network',url:'https://www.humanrightsnetwork.org/publications/genocide-in-gaza'}
 ];
-i18n.nl.donations=[
+D.nl.donations=[
   {name:'Steun de Wereldwijde Mars voor Palestina',desc:'Wereldwijde demonstraties voor gerechtigheid.',url:'https://gmfpalestine.com/',urgent:true},
   {name:'Steun Weeskinderen via Qamar Charity',desc:'Directe hulp aan weeskinderen in Gaza.',url:'https://www.qamarcharity.org/',urgent:true},
+  {name:'Steun Palestijnen in nood',desc:'Directe noodhulp voor gezinnen in Gaza.',url:'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US',urgent:false},
   {name:'Help Fatima Alqolaq en haar gezin',desc:'Twee weken na hun bruiloft verloren ze alles.',url:'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR'},
   {name:'Help Adel uit Gaza',desc:'Steun Adel bij het heropbouwen van zijn leven.',url:'https://gofund.me/b57bcc02'},
   {name:'Help Munir Al-Omari uit Gaza',desc:'De oorlog nam alles af. Help hem opnieuw beginnen.',url:'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?lang=en_US'},
   {name:'Help Anas Abu Abdo uit Gaza',desc:'Help Anas wat er rest van zijn leven te redden.',url:'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US'},
-  {name:'Help kleine Samia en Ameer uit Gaza',desc:'Geef deze kinderen een kans op een toekomst.',url:'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future'},
-  {name:'Steun Palestijnen in nood',desc:'Directe noodhulp voor gezinnen in Gaza.',url:'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US'}
+  {name:'Help kleine Samia en Ameer uit Gaza',desc:'Geef deze kinderen een kans op een toekomst.',url:'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future'}
 ];
-i18n.nl.story='<h2>De moord op Hind Rajab</h2><p>Op 29 januari 2024 werd de vijfjarige Hind Rajab vermoord, samen met haar familie, door het Isra\u00eblische leger (IDF) in Gaza. Hind overleefde de eerste aanval, maar bleef gewond en alleen achter in het autowrak, omringd door de lichamen van haar familieleden.</p><p>Die dag probeerden Hind, haar vier neven en nichten, tante en oom te vluchten uit de wijk Tel al-Hawa in Gaza-Stad. Terwijl ze in hun Kia Picanto probeerden te ontkomen, opende een IDF-eenheid het vuur op hun auto. Hinds 15-jarige nicht Layan Hamada belde in paniek met de Palestijnse Rode Halve Maan (PRCS) en meldde dat ze beschoten werden, dat een tank dichterbij kwam, en dat iedereen in de auto behalve Hind en zijzelf gedood was. Seconden later klonken opnieuw schoten, en stopte Layans geschreeuw abrupt.</p><p>Hind was nu de enige overlevende. Zwaargewond en alleen, opgesloten in de auto. De PRCS bleef in contact met Hind terwijl ze probeerden toestemming te krijgen van het IDF om hulpverleners te sturen.</p><p>Een onderzoek door Forensic Architecture toonde aan dat in totaal 335 kogels op de auto werden afgevuurd, en dat de tankbemanning vrij zicht had op de twee kinderen in het voertuig. De IDF-tank stond slechts 13 tot 23 meter van de auto. In slechts 6 seconden werden 64 schoten afgevuurd op de 15-jarige Layan, terwijl ze al aan de telefoon was met de PRCS.</p><h3>De hulpverleners</h3><p>Rond 18:00 uur vertrokken PRCS-ambulancemedewerkers Yusuf al-Zeino en Ahmed al-Madhoun vanuit het Al-Ahli ziekenhuis om Hind te redden. Nadat ze op de locatie aankwamen, werd er nooit meer iets van hen vernomen. Het laatste dat werd opgenomen:</p><blockquote>"Meldkamer: Kunnen jullie de auto zien?<br>Ambulance: Ik kan hier niets zien.<br>Meldkamer: Hebben jullie de sirene en zwaailichten aan?<br>Ambulance: Alleen de lichten, niet de sirene.<br>Ambulance: ... oh, daar is hij!<br>[explosie]"</blockquote><p>Twee weken na de aanval, toen het IDF het gebied eindelijk verliet, werden de ontbindende lichamen van Hind, Layan en hun familieleden gevonden. Een paar meter verderop werd de uitgebrande ambulance gevonden, samen met de resten van de hulpverleners Yusuf en Ahmed.</p><h3>Waarom Hind Rajab een symbool werd</h3><p>Het verhaal van Hind Rajab gaat verder dan haar individuele tragedie. Het staat symbool voor de systematische wreedheid waarmee Palestijnen worden geconfronteerd. Net als duizenden kinderen die voor en na haar zijn gedood, geeft het verhaal van Hind een duidelijk beeld van de bewuste, collectieve bestraffing die Isra\u00ebl toepast op burgers, met name kinderen, en het opzettelijk aanvallen van hulpverleners.</p><p>Volgens de Conventies van Gen\u00e8ve en het Statuut van Rome waren Hind, haar familie en de twee hulpverleners allemaal slachtoffers van ernstige en complexe misdaden, waaronder meerdere zware schendingen en oorlogsmisdaden. (Euro-Med Monitor)</p><h2>Wat wij doen</h2><p>Wij brengen het verhaal van Hind Rajab naar de straten van Nederland. Onze campagne draait om een replica van de auto waarin Hind stierf, inclusief replica-kogelgaten die laten zien hoe zij haar laatste momenten heeft ervaren terwijl ze beschoten werd door Isra\u00eblische troepen. De auto is een kunstwerk met informatieve flyers en materialen die het verhaal vertellen.</p><p>We trekken door het land om bewustzijn te cre\u00ebren en mensen te informeren. Kennis is macht. We zijn niet verbonden aan een organisatie of groep. We zijn individuen die strijden tegen onrecht.</p><h3>In het nieuws</h3>';
-i18n.nl.newsLinks=[
-  {name:'Binnenstadskrant Utrecht',desc:'Met kogels doorzeefde auto in binnenstad.',url:'https://www.binnenstadskrantutrecht.nl/nieuws/met-kogels-doorzeefde-auto-in-binnenstad/34'},
-  {name:'NOS',desc:'Politie Utrecht neemt auto met kogelgaten in, blijkt Gaza-kunstwerk.',url:'https://nos.nl/artikel/2595547-politie-utrecht-neemt-auto-met-kogelgaten-in-blijkt-gaza-kunstwerk-te-zijn'}
+D.nl.ytLabel='Luister naar Hind Rajab\u2019s laatste woorden';
+D.nl.story='<h2>De moord op Hind Rajab</h2><p>Op 29 januari 2024 werd de vijfjarige Hind Rajab vermoord, samen met haar familie, door het Isra\u00eblische leger (IDF) in Gaza. Hind overleefde de eerste aanval, maar bleef gewond en alleen achter in het autowrak, omringd door de lichamen van haar familieleden.</p><p>Die dag probeerden Hind, haar vier neven en nichten, tante en oom te vluchten uit de wijk Tel al-Hawa in Gaza-Stad. Terwijl ze in hun Kia Picanto probeerden te ontkomen, opende een IDF-eenheid het vuur op hun auto. Hinds 15-jarige nicht Layan Hamada belde in paniek met de Palestijnse Rode Halve Maan (PRCS) en meldde dat ze beschoten werden, dat een tank dichterbij kwam, en dat iedereen in de auto behalve Hind en zijzelf gedood was. Seconden later klonken opnieuw schoten, en stopte Layans geschreeuw abrupt.</p><p>Hind was nu de enige overlevende. Zwaargewond en alleen, opgesloten in de auto. De PRCS bleef in contact met Hind terwijl ze probeerden toestemming te krijgen van het IDF om hulpverleners te sturen.</p><p>Een onderzoek door Forensic Architecture toonde aan dat in totaal 335 kogels op de auto werden afgevuurd, en dat de tankbemanning vrij zicht had op de twee kinderen in het voertuig. De IDF-tank stond slechts 13 tot 23 meter van de auto. In slechts 6 seconden werden 64 schoten afgevuurd op de 15-jarige Layan, terwijl ze al aan de telefoon was met de PRCS.</p>{{YT}}<h3>De hulpverleners</h3><p>Rond 18:00 uur vertrokken PRCS-ambulancemedewerkers Yusuf al-Zeino en Ahmed al-Madhoun vanuit het Al-Ahli ziekenhuis om Hind te redden. Nadat ze op de locatie aankwamen, werd er nooit meer iets van hen vernomen. Het laatste dat werd opgenomen:</p>{{CHAT}}<p>Twee weken na de aanval, toen het IDF het gebied eindelijk verliet, werden de ontbindende lichamen van Hind, Layan en hun familieleden gevonden. Een paar meter verderop werd de uitgebrande ambulance gevonden, samen met de resten van de hulpverleners Yusuf en Ahmed.</p><h3>Waarom Hind Rajab een symbool werd</h3><p>Het verhaal van Hind Rajab gaat verder dan haar individuele tragedie. Het staat symbool voor de systematische wreedheid waarmee Palestijnen worden geconfronteerd. Net als duizenden kinderen die voor en na haar zijn gedood, geeft het verhaal van Hind een duidelijk beeld van de bewuste, collectieve bestraffing die Isra\u00ebl toepast op burgers, met name kinderen, en het opzettelijk aanvallen van hulpverleners.</p><p>Volgens de Conventies van Gen\u00e8ve en het Statuut van Rome waren Hind, haar familie en de twee hulpverleners allemaal slachtoffers van ernstige en complexe misdaden, waaronder meerdere zware schendingen en oorlogsmisdaden. (Euro-Med Monitor)</p>{{SOURCE}}<h2>Wat wij doen</h2><p>Hind Rajab is het verhaal dat de wereld kent. Maar zij is niet alleen. Zij staat voor elk kind dat is gedood door de Isra\u00eblische strijdkrachten. Elk kind dat nooit meer thuiskwam. Elk kind wiens naam nooit in het nieuws verscheen. Wij weigeren te accepteren dat hun verhalen worden vergeten.</p><p>Daarom brengen wij het verhaal van Hind naar de straten van Nederland. In het hart van onze campagne staat een replica van de auto waarin Hind stierf. De auto is doorboord met replica-kogelgaten, geplaatst zoals de werkelijke inslagen, zodat je kunt zien hoe een vijfjarig meisje haar laatste momenten heeft meegemaakt onder Isra\u00eblisch vuur. Op de auto staan flyers en informatiematerialen die het verhaal vertellen aan voorbijgangers.</p><p>We trekken van stad naar stad. Niet namens een organisatie. Niet namens een politieke partij. Wij zijn gewone mensen die vinden dat onrecht niet onbesproken mag blijven. Kennis is macht, en stilte is medeplichtigheid.</p><h3>In het nieuws</h3>';
+D.nl.chatTranscript=chatHTML('Meldkamer','Ambulance','[explosie]','Kunnen jullie de auto zien?','Ik kan hier niets zien.','Hebben jullie de sirene en zwaailichten aan?','Alleen de lichten, niet de sirene.','... oh, daar is hij!');
+D.nl.newsLinks=[
+  {name:'NOS',desc:'Politie Utrecht neemt auto met kogelgaten in, blijkt Gaza-kunstwerk.',url:'https://nos.nl/artikel/2595547-politie-utrecht-neemt-auto-met-kogelgaten-in-blijkt-gaza-kunstwerk-te-zijn'},
+  {name:'RTV Utrecht',desc:'Replica van doorzeefde auto vraagt aandacht voor situatie in Gaza.',url:'https://www.rtvutrecht.nl/nieuws/3934810/replica-van-doorzeefde-auto-in-utrecht-vraagt-aandacht-voor-situatie-in-gaza'},
+  {name:'Rodi Haarlem',desc:'Het meisje dat om hulp riep: haar auto staat nu in Haarlem.',url:'https://www.rodi.nl/haarlem/nieuws/466930/het-meisje-dat-om-hulp-riep-haar-auto-staat-nu-in-haarlem'},
+  {name:'Doetinchems Vizier',desc:'335 kogelgaten vertellen het verhaal van Hind.',url:'https://www.doetinchemsvizier.nl/nieuws/maatschappij/535999/335-kogelgaten-vertellen-het-verhaal-van-hind'},
+  {name:'Binnenstadskrant Utrecht',desc:'Met kogels doorzeefde auto in binnenstad.',url:'https://www.binnenstadskrantutrecht.nl/nieuws/met-kogels-doorzeefde-auto-in-binnenstad/34'}
 ];
-i18n.nl.storySource='hindrajabfoundation.org';
+D.nl.storySource='hindrajabfoundation.org';
 
-// -- EN --
-i18n.en.back='Back';
-i18n.en.heroLabel='The killing of Hind Rajab';
-i18n.en.emailLabel='Raise your voice';
-i18n.en.emailTitle='Raise your voice';
-i18n.en.emailDesc='One email can make a difference. It takes 30 seconds.';
-i18n.en.donateLabel='Help save lives now';
-i18n.en.donateTitle='Help save lives now';
-i18n.en.donateDesc='Your contribution provides real aid. Every amount counts.';
-i18n.en.sourcesLabel='See the evidence';
-i18n.en.sourcesTitle='See the evidence';
-i18n.en.sourcesDesc='Independent and verified sources. Read and share them.';
-i18n.en.violenceSubject='Call for ceasefire and accountability under international law in the Middle East';
-i18n.en.violenceBody='Dear Member of Parliament,\n\nI am writing to urge you to take active steps to help stop the ongoing wars in the Middle East, particularly in Gaza and Lebanon.\nThe continuing violence has caused enormous civilian suffering. I respectfully request that you:\n\nAdvocate for an immediate and lasting ceasefire.\nSupport full investigations by the International Criminal Court and other international bodies into violations of international humanitarian law by all parties involved.\nWork to hold Israel accountable to the same international legal standards as any other country.\n\nOppose further escalation and the influence that prolongs the conflict.\nMany Dutch citizens are deeply concerned about the humanitarian situation and the risk of wider regional instability. I believe the Netherlands, as a strong supporter of international law, has a duty to act consistently and impartially.\n\nI would value knowing your position on this matter and what actions you plan to take.\n\nThank you for your time and service to the country.\n\nBest regards.';
-i18n.en.chatControlSubject='My Voice AGAINST the Chat Control Legislative Bill';
-i18n.en.chatControlBody='Dear Members of the European Parliament from the Netherlands,\n\nAs a concerned Dutch and European citizen, I am deeply worried about the proposed EU legislation on "Chat Control." I am gravely concerned about the way this proposal undermines the fundamental rights of all citizens.\n\nThe scanning and monitoring of private messages amounts to a large-scale violation of our personal privacy and infringes upon the right to confidential communication. This not only compromises the privacy of millions of innocent citizens but also sets a dangerous precedent for surveillance and control within the European Union.\n\nI urgently appeal to you not to support this proposal.';
-i18n.en.emailActions=[
+// ======== EN ========
+D.en.back='Back';
+D.en.heroLabel='The killing of Hind Rajab';
+D.en.emailLabel='Help with your voice';
+D.en.emailTitle='Help with your voice';
+D.en.emailDesc='No money needed. An email to Dutch Parliament takes 30 seconds and makes a difference.';
+D.en.donateLabel='Help with a donation';
+D.en.donateTitle='Help with a donation';
+D.en.donateDesc='Your contribution provides real aid. Every amount counts.';
+D.en.sourcesLabel='See the evidence';
+D.en.shareCopied='Link copied!';
+D.en.violenceSubject='Call for ceasefire and accountability under international law in the Middle East';
+D.en.violenceBody='Dear Member of Parliament,\n\nI am writing to urge you to take active steps to help stop the ongoing wars in the Middle East, particularly in Gaza and Lebanon.\nThe continuing violence has caused enormous civilian suffering. I respectfully request that you:\n\nAdvocate for an immediate and lasting ceasefire.\nSupport full investigations by the International Criminal Court and other international bodies into violations of international humanitarian law by all parties involved.\nWork to hold Israel accountable to the same international legal standards as any other country.\n\nOppose further escalation and the influence that prolongs the conflict.\nMany Dutch citizens are deeply concerned about the humanitarian situation and the risk of wider regional instability. I believe the Netherlands, as a strong supporter of international law, has a duty to act consistently and impartially.\n\nI would value knowing your position on this matter and what actions you plan to take.\n\nThank you for your time and service to the country.\n\nBest regards.';
+D.en.chatControlSubject='My Voice AGAINST the Chat Control Legislative Bill';
+D.en.chatControlBody='Dear Members of the European Parliament from the Netherlands,\n\nAs a concerned Dutch and European citizen, I am deeply worried about the proposed EU legislation on "Chat Control." I am gravely concerned about the way this proposal undermines the fundamental rights of all citizens.\n\nThe scanning and monitoring of private messages amounts to a large-scale violation of our personal privacy and infringes upon the right to confidential communication. This not only compromises the privacy of millions of innocent citizens but also sets a dangerous precedent for surveillance and control within the European Union.\n\nI urgently appeal to you not to support this proposal.';
+D.en.emailActions=[
   {label:'Send ceasefire call to the Dutch Parliament',desc:'Pre-written letter to 88 members of parliament on Gaza and Lebanon.',action:'violence'},
   {label:'Send email against "Chat Control" to EU Parliament',desc:'Against the EU bill that aims to scan private messages.',action:'chatcontrol'}
 ];
-i18n.en.sources=[
+D.en.sources=[
   {name:'The Rights Forum',url:'https://www.rightsforum.org/'},
   {name:'Human Rights Watch Report',url:'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza'},
   {name:'OHCHR Press Release',url:'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied'},
@@ -206,44 +240,48 @@ i18n.en.sources=[
   {name:'Doctors Without Borders Report',url:'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction'},
   {name:'Human Rights Network',url:'https://www.humanrightsnetwork.org/publications/genocide-in-gaza'}
 ];
-i18n.en.donations=[
+D.en.donations=[
   {name:'Join the Global March for Palestine',desc:'Worldwide demonstrations for justice.',url:'https://gmfpalestine.com/',urgent:true},
   {name:'Support Orphans via Qamar Charity',desc:'Direct aid for orphaned children in Gaza.',url:'https://www.qamarcharity.org/',urgent:true},
+  {name:'Support Palestinians in their time of need',desc:'Emergency relief for families in Gaza.',url:'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US'},
   {name:'Help Fatima Alqolaq and her family',desc:'Two weeks after their wedding, they lost everything.',url:'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR'},
   {name:'Help Adel from Gaza',desc:'Support Adel in rebuilding his life.',url:'https://gofund.me/b57bcc02'},
   {name:'Help Munir Al-Omari from Gaza',desc:'War took everything. Help him start over.',url:'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?lang=en_US'},
   {name:'Help Anas Abu Abdo from Gaza',desc:'Help Anas save what remains of his life.',url:'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US'},
-  {name:'Help little Samia and Ameer from Gaza',desc:'Give these children a chance at a future.',url:'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future'},
-  {name:'Support Palestinians in their time of need',desc:'Emergency relief for families in Gaza.',url:'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US'}
+  {name:'Help little Samia and Ameer from Gaza',desc:'Give these children a chance at a future.',url:'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future'}
 ];
-i18n.en.story='<h2>The killing of Hind Rajab</h2><p>On January 29, 2024, five-year-old Hind Rajab was killed alongside her family by the Israeli Defense Forces (IDF) in Gaza. Hind survived the initial attack but was left wounded and alone inside the wreckage, surrounded by the bodies of her family members.</p><p>That day, Hind, her four cousins, aunt and uncle attempted to flee the Tel al-Hawa neighborhood in Gaza City. As they tried to escape in their Kia Picanto, an IDF unit opened fire on their car. Hind\'s 15-year-old cousin Layan Hamada made an urgent call to the Palestinian Red Crescent Society (PRCS), reporting they were being targeted, a tank was approaching, and everyone in the car except Hind and herself had been killed. Seconds later, gunshots rang out again, and Layan\'s screaming stopped abruptly.</p><p>Hind was now the only survivor. Severely injured and alone, trapped inside the car. The PRCS stayed in contact with Hind while attempting to get permission from the IDF to send paramedics.</p><p>An investigation by Forensic Architecture found that a total of 335 bullets were fired at the car, and that the tank crew had clear sight of the two children inside the vehicle. The IDF tank was positioned just 13 to 23 meters from the car. In just 6 seconds, 64 rounds were fired at 15-year-old Layan while she was already on the phone with the PRCS.</p><h3>The paramedics</h3><p>Around 6 PM, PRCS paramedics Yusuf al-Zeino and Ahmed al-Madhoun left Al-Ahli Hospital in an ambulance to rescue Hind. After arriving at the location, they were never heard from again. The last thing captured:</p><blockquote>"Control room: Can you see the car?<br>Ambulance: I can\'t see a thing here.<br>Control room: Do you have your siren and flashing lights on?<br>Ambulance: Just the lights, not the siren.<br>Ambulance: ... oh there it is!<br>[explosion]"</blockquote><p>Two weeks after the attack, when the IDF finally left the area, the decomposing bodies of Hind, Layan and their family members were found. A few meters away, the burned-out ambulance was discovered alongside the remains of paramedics Yusuf and Ahmed.</p><h3>Why Hind Rajab became a symbol</h3><p>Hind Rajab\'s story reaches far beyond her individual tragedy. It symbolizes the systematic cruelty Palestinians face. Like thousands of children killed before and after her, Hind\'s story gives a clear picture of the deliberate, collective punishment Israel inflicts on civilians, particularly children, and the intentional targeting of healthcare workers.</p><p>According to the Geneva Conventions and the Rome Statute, Hind, her family, and the two paramedics were all victims of serious and complex crimes including multiple grave violations and war crimes. (Euro-Med Monitor)</p><h2>What we do</h2><p>We bring the story of Hind Rajab to the streets of the Netherlands. Our campaign centers around a replica of the car in which Hind died, complete with replica bullet holes showing how she experienced her final moments as she was shot at by Israeli forces. The car is an art installation covered with informational flyers and materials that tell the story.</p><p>We travel across the country to raise awareness and educate people. Knowledge is power. We are not tied to any organization or group. We are individuals fighting against injustice.</p><h3>In the news</h3>';
-i18n.en.newsLinks=[
-  {name:'Binnenstadskrant Utrecht',desc:'Bullet-riddled car in city center.',url:'https://www.binnenstadskrantutrecht.nl/nieuws/met-kogels-doorzeefde-auto-in-binnenstad/34'},
-  {name:'NOS',desc:'Utrecht police seize car with bullet holes, turns out to be Gaza artwork.',url:'https://nos.nl/artikel/2595547-politie-utrecht-neemt-auto-met-kogelgaten-in-blijkt-gaza-kunstwerk-te-zijn'}
+D.en.ytLabel="Listen to Hind Rajab\u2019s last words";
+D.en.story='<h2>The killing of Hind Rajab</h2><p>On January 29, 2024, five-year-old Hind Rajab was killed alongside her family by the Israeli Defense Forces (IDF) in Gaza. Hind survived the initial attack but was left wounded and alone inside the wreckage, surrounded by the bodies of her family members.</p><p>That day, Hind, her four cousins, aunt and uncle attempted to flee the Tel al-Hawa neighborhood in Gaza City. As they tried to escape in their Kia Picanto, an IDF unit opened fire on their car. Hind\'s 15-year-old cousin Layan Hamada made an urgent call to the Palestinian Red Crescent Society (PRCS), reporting they were being targeted, a tank was approaching, and everyone in the car except Hind and herself had been killed. Seconds later, gunshots rang out again, and Layan\'s screaming stopped abruptly.</p><p>Hind was now the only survivor. Severely injured and alone, trapped inside the car. The PRCS stayed in contact with Hind while attempting to get permission from the IDF to send paramedics.</p><p>An investigation by Forensic Architecture found that a total of 335 bullets were fired at the car, and that the tank crew had clear sight of the two children inside the vehicle. The IDF tank was positioned just 13 to 23 meters from the car. In just 6 seconds, 64 rounds were fired at 15-year-old Layan while she was already on the phone with the PRCS.</p>{{YT}}<h3>The paramedics</h3><p>Around 6 PM, PRCS paramedics Yusuf al-Zeino and Ahmed al-Madhoun left Al-Ahli Hospital in an ambulance to rescue Hind. After arriving at the location, they were never heard from again. The last thing captured:</p>{{CHAT}}<p>Two weeks after the attack, when the IDF finally left the area, the decomposing bodies of Hind, Layan and their family members were found. A few meters away, the burned-out ambulance was discovered alongside the remains of paramedics Yusuf and Ahmed.</p><h3>Why Hind Rajab became a symbol</h3><p>Hind Rajab\'s story reaches far beyond her individual tragedy. It symbolizes the systematic cruelty Palestinians face. Like thousands of children killed before and after her, Hind\'s story gives a clear picture of the deliberate, collective punishment Israel inflicts on civilians, particularly children, and the intentional targeting of healthcare workers.</p><p>According to the Geneva Conventions and the Rome Statute, Hind, her family, and the two paramedics were all victims of serious and complex crimes including multiple grave violations and war crimes. (Euro-Med Monitor)</p>{{SOURCE}}<h2>What we do</h2><p>Hind Rajab is the story the world came to know. But she is not alone. She stands for every child killed by Israeli forces. Every child who never came home. Every child whose name never made the news. We refuse to let their stories be forgotten.</p><p>That is why we bring Hind\'s story to the streets of the Netherlands. At the heart of our campaign is a replica of the car in which Hind died. The car is pierced with replica bullet holes, placed exactly as the real impacts were, so that you can see how a five-year-old girl experienced her final moments under Israeli fire. The car is covered with flyers and informational materials that tell the story to anyone passing by.</p><p>We go from city to city. Not on behalf of any organization. Not on behalf of any political party. We are ordinary people who believe that injustice must not go unspoken. Knowledge is power, and silence is complicity.</p><h3>In the news</h3>';
+D.en.chatTranscript=chatHTML('Control room','Ambulance','[explosion]','Can you see the car?','I can\'t see a thing here.','Do you have your siren and flashing lights on?','Just the lights, not the siren.','... oh there it is!');
+D.en.newsLinks=[
+  {name:'NOS',desc:'Utrecht police seize car with bullet holes, turns out to be Gaza artwork.',url:'https://nos.nl/artikel/2595547-politie-utrecht-neemt-auto-met-kogelgaten-in-blijkt-gaza-kunstwerk-te-zijn'},
+  {name:'RTV Utrecht',desc:'Replica of bullet-riddled car draws attention to Gaza.',url:'https://www.rtvutrecht.nl/nieuws/3934810/replica-van-doorzeefde-auto-in-utrecht-vraagt-aandacht-voor-situatie-in-gaza'},
+  {name:'Rodi Haarlem',desc:'The girl who cried for help: her car is now in Haarlem.',url:'https://www.rodi.nl/haarlem/nieuws/466930/het-meisje-dat-om-hulp-riep-haar-auto-staat-nu-in-haarlem'},
+  {name:'Doetinchems Vizier',desc:'335 bullet holes tell the story of Hind.',url:'https://www.doetinchemsvizier.nl/nieuws/maatschappij/535999/335-kogelgaten-vertellen-het-verhaal-van-hind'},
+  {name:'Binnenstadskrant Utrecht',desc:'Bullet-riddled car in city center.',url:'https://www.binnenstadskrantutrecht.nl/nieuws/met-kogels-doorzeefde-auto-in-binnenstad/34'}
 ];
-i18n.en.storySource='hindrajabfoundation.org';
+D.en.storySource='hindrajabfoundation.org';
 
-// -- FR --
-i18n.fr.back='Retour';
-i18n.fr.heroLabel='Le meurtre de Hind Rajab';
-i18n.fr.emailLabel='Faites entendre votre voix';
-i18n.fr.emailTitle='Faites entendre votre voix';
-i18n.fr.emailDesc='Un seul e-mail peut changer les choses. Cela prend 30 secondes.';
-i18n.fr.donateLabel='Aidez \u00e0 sauver des vies';
-i18n.fr.donateTitle='Aidez \u00e0 sauver des vies';
-i18n.fr.donateDesc='Votre don apporte une aide concr\u00e8te. Chaque montant compte.';
-i18n.fr.sourcesLabel='Consultez les preuves';
-i18n.fr.sourcesTitle='Consultez les preuves';
-i18n.fr.sourcesDesc='Sources ind\u00e9pendantes et v\u00e9rifi\u00e9es. Lisez-les et partagez-les.';
-i18n.fr.violenceSubject='Appel au cessez-le-feu et au respect du droit international au Moyen-Orient';
-i18n.fr.violenceBody='Cher(e) Membre du Parlement,\n\nJe vous \u00e9cris pour vous demander de prendre des mesures actives afin de contribuer \u00e0 mettre fin aux guerres en cours au Moyen-Orient, en particulier \u00e0 Gaza et au Liban.\nLa violence persistante a caus\u00e9 d\u2019\u00e9normes souffrances parmi la population civile. Je vous demande respectueusement de :\n\nPlaider pour un cessez-le-feu imm\u00e9diat et durable.\nSoutenir des enqu\u00eates compl\u00e8tes par la Cour P\u00e9nale Internationale et d\u2019autres instances internationales sur les violations du droit international humanitaire par toutes les parties impliqu\u00e9es.\nVeiller \u00e0 ce qu\u2019Isra\u00ebl soit tenu aux m\u00eames normes juridiques internationales que tout autre pays.\n\nS\u2019opposer \u00e0 toute escalade et \u00e0 l\u2019influence qui prolonge le conflit.\nDe nombreux citoyens n\u00e9erlandais sont profond\u00e9ment pr\u00e9occup\u00e9s par la situation humanitaire et le risque d\u2019instabilit\u00e9 r\u00e9gionale. Je crois que les Pays-Bas, en tant que d\u00e9fenseur du droit international, ont le devoir d\u2019agir de mani\u00e8re coh\u00e9rente et impartiale.\n\nJ\u2019appr\u00e9cierais de conna\u00eetre votre position sur ce sujet et les mesures que vous comptez prendre.\n\nMerci pour votre temps et votre service.\n\nCordialement.';
-i18n.fr.chatControlSubject='Mon opposition au projet de loi \u00ab Chat Control \u00bb';
-i18n.fr.chatControlBody='Chers Membres du Parlement Europ\u00e9en des Pays-Bas,\n\nEn tant que citoyen(ne) europ\u00e9en(ne) et n\u00e9erlandais(e) pr\u00e9occup\u00e9(e), je m\u2019inqui\u00e8te profond\u00e9ment du projet de l\u00e9gislation europ\u00e9enne \u00ab Chat Control \u00bb. Ce projet porte gravement atteinte aux droits fondamentaux de tous les citoyens.\n\nLa surveillance et le contr\u00f4le des messages priv\u00e9s constituent une violation massive de notre vie priv\u00e9e et du droit \u00e0 la communication confidentielle. Cela compromet non seulement la vie priv\u00e9e de millions de citoyens innocents, mais cr\u00e9e \u00e9galement un dangereux pr\u00e9c\u00e9dent pour la surveillance au sein de l\u2019Union Europ\u00e9enne.\n\nJe vous demande instamment de ne pas soutenir cette proposition.';
-i18n.fr.emailActions=[
+// ======== FR ========
+D.fr.back='Retour';
+D.fr.heroLabel='Le meurtre de Hind Rajab';
+D.fr.emailLabel='Aidez par votre voix';
+D.fr.emailTitle='Aidez par votre voix';
+D.fr.emailDesc='Pas besoin d\'argent. Un e-mail au Parlement prend 30 secondes et fait la diff\u00e9rence.';
+D.fr.donateLabel='Aidez par un don';
+D.fr.donateTitle='Aidez par un don';
+D.fr.donateDesc='Votre don apporte une aide concr\u00e8te. Chaque montant compte.';
+D.fr.sourcesLabel='Consultez les preuves';
+D.fr.shareCopied='Lien copi\u00e9 !';
+D.fr.violenceSubject='Appel au cessez-le-feu et au respect du droit international au Moyen-Orient';
+D.fr.violenceBody='Cher(e) Membre du Parlement,\n\nJe vous \u00e9cris pour vous demander de prendre des mesures actives afin de contribuer \u00e0 mettre fin aux guerres en cours au Moyen-Orient, en particulier \u00e0 Gaza et au Liban.\nLa violence persistante a caus\u00e9 d\u2019\u00e9normes souffrances parmi la population civile. Je vous demande respectueusement de :\n\nPlaider pour un cessez-le-feu imm\u00e9diat et durable.\nSoutenir des enqu\u00eates compl\u00e8tes par la Cour P\u00e9nale Internationale et d\u2019autres instances internationales sur les violations du droit international humanitaire par toutes les parties impliqu\u00e9es.\nVeiller \u00e0 ce qu\u2019Isra\u00ebl soit tenu aux m\u00eames normes juridiques internationales que tout autre pays.\n\nS\u2019opposer \u00e0 toute escalade et \u00e0 l\u2019influence qui prolonge le conflit.\n\nJ\u2019appr\u00e9cierais de conna\u00eetre votre position sur ce sujet et les mesures que vous comptez prendre.\n\nCordialement.';
+D.fr.chatControlSubject='Mon opposition au projet de loi \u00ab Chat Control \u00bb';
+D.fr.chatControlBody='Chers Membres du Parlement Europ\u00e9en des Pays-Bas,\n\nEn tant que citoyen(ne) pr\u00e9occup\u00e9(e), je m\u2019inqui\u00e8te profond\u00e9ment du projet de l\u00e9gislation europ\u00e9enne \u00ab Chat Control \u00bb. Ce projet porte gravement atteinte aux droits fondamentaux de tous les citoyens.\n\nLa surveillance des messages priv\u00e9s constitue une violation massive de notre vie priv\u00e9e. Cela cr\u00e9e un dangereux pr\u00e9c\u00e9dent pour la surveillance au sein de l\u2019UE.\n\nJe vous demande instamment de ne pas soutenir cette proposition.';
+D.fr.emailActions=[
   {label:'Envoyer un appel au cessez-le-feu au Parlement n\u00e9erlandais',desc:'Lettre pr\u00e9-r\u00e9dig\u00e9e aux 88 d\u00e9put\u00e9s sur Gaza et le Liban.',action:'violence'},
-  {label:'Envoyer un e-mail contre \u00ab Chat Control \u00bb au Parlement europ\u00e9en',desc:'Contre le projet de loi europ\u00e9en visant \u00e0 scanner les messages priv\u00e9s.',action:'chatcontrol'}
+  {label:'Envoyer un e-mail contre \u00ab Chat Control \u00bb au Parlement europ\u00e9en',desc:'Contre le projet de loi visant \u00e0 scanner les messages priv\u00e9s.',action:'chatcontrol'}
 ];
-i18n.fr.sources=[
+D.fr.sources=[
   {name:'The Rights Forum',url:'https://www.rightsforum.org/'},
   {name:'Rapport Human Rights Watch',url:'https://www.hrw.org/news/2024/11/14/israels-crimes-against-humanity-gaza'},
   {name:'Communiqu\u00e9 OHCHR',url:'https://www.ohchr.org/en/press-releases/2025/06/israeli-attacks-educational-religious-and-cultural-sites-occupied'},
@@ -252,70 +290,56 @@ i18n.fr.sources=[
   {name:'Rapport M\u00e9decins Sans Fronti\u00e8res',url:'https://www.doctorswithoutborders.org/latest/gaza-death-trap-msf-report-exposes-israels-campaign-total-destruction'},
   {name:'Human Rights Network',url:'https://www.humanrightsnetwork.org/publications/genocide-in-gaza'}
 ];
-i18n.fr.donations=[
+D.fr.donations=[
   {name:'Rejoignez la Marche Mondiale pour la Palestine',desc:'Manifestations mondiales pour la justice.',url:'https://gmfpalestine.com/',urgent:true},
   {name:'Soutenez les orphelins via Qamar Charity',desc:'Aide directe aux orphelins de Gaza.',url:'https://www.qamarcharity.org/',urgent:true},
+  {name:'Soutenez les Palestiniens dans le besoin',desc:'Aide d\'urgence pour les familles de Gaza.',url:'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US'},
   {name:'Aidez Fatima Alqolaq et sa famille',desc:'Deux semaines apr\u00e8s leur mariage, ils ont tout perdu.',url:'https://www.gofundme.com/f/two-weeks-after-our-wedding-we-lost-it-all?lang=fr_FR'},
   {name:'Aidez Adel de Gaza',desc:'Soutenez Adel dans la reconstruction de sa vie.',url:'https://gofund.me/b57bcc02'},
   {name:'Aidez Munir Al-Omari de Gaza',desc:'La guerre a tout pris. Aidez-le \u00e0 recommencer.',url:'https://www.gofundme.com/f/war-took-everything-lets-help-them-take-life-back?lang=en_US'},
   {name:'Aidez Anas Abu Abdo de Gaza',desc:'Aidez Anas \u00e0 sauver ce qui reste de sa vie.',url:'https://www.gofundme.com/f/help-me-save-what-remains-of-my-life-and-start-anew?lang=en_US'},
-  {name:'Aidez les petits Samia et Ameer de Gaza',desc:'Donnez \u00e0 ces enfants une chance pour leur avenir.',url:'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future'},
-  {name:'Soutenez les Palestiniens dans le besoin',desc:'Aide d\'urgence pour les familles de Gaza.',url:'https://www.gofundme.com/f/support-our-brothers-and-sisters-in-gaza?lang=en_US'}
+  {name:'Aidez les petits Samia et Ameer de Gaza',desc:'Donnez \u00e0 ces enfants une chance.',url:'https://www.gofundme.com/f/help-our-little-ones-have-a-brighter-future'}
 ];
-i18n.fr.story='<h2>Le meurtre de Hind Rajab</h2><p>Le 29 janvier 2024, Hind Rajab, cinq ans, a \u00e9t\u00e9 tu\u00e9e avec sa famille par les Forces de D\u00e9fense Isra\u00e9liennes (FDI) \u00e0 Gaza. Hind a surv\u00e9cu \u00e0 l\'attaque initiale mais est rest\u00e9e bless\u00e9e et seule dans l\'\u00e9pave, entour\u00e9e des corps de ses proches.</p><p>Ce jour-l\u00e0, Hind, ses quatre cousins, sa tante et son oncle tentaient de fuir le quartier de Tel al-Hawa \u00e0 Gaza. Alors qu\'ils essayaient de s\'\u00e9chapper dans leur Kia Picanto, une unit\u00e9 des FDI a ouvert le feu sur leur voiture. La cousine de Hind, Layan Hamada, 15 ans, a appel\u00e9 en urgence le Croissant-Rouge Palestinien (PRCS), signalant qu\'ils \u00e9taient vis\u00e9s, qu\'un char approchait et que tout le monde dans la voiture sauf Hind et elle avait \u00e9t\u00e9 tu\u00e9. Quelques secondes plus tard, des coups de feu ont retenti de nouveau, et les cris de Layan se sont arr\u00eat\u00e9s brusquement.</p><p>Hind \u00e9tait d\u00e9sormais la seule survivante. Gravement bless\u00e9e et seule, pi\u00e9g\u00e9e dans la voiture. Le PRCS est rest\u00e9 en contact avec Hind tout en tentant d\'obtenir l\'autorisation des FDI pour envoyer des secours.</p><p>Une enqu\u00eate de Forensic Architecture a r\u00e9v\u00e9l\u00e9 qu\'un total de 335 balles avaient \u00e9t\u00e9 tir\u00e9es sur la voiture, et que l\'\u00e9quipage du char avait une vue d\u00e9gag\u00e9e sur les deux enfants. Le char \u00e9tait \u00e0 seulement 13 \u00e0 23 m\u00e8tres de la voiture. En seulement 6 secondes, 64 tirs ont \u00e9t\u00e9 effectu\u00e9s sur Layan, 15 ans, alors qu\'elle \u00e9tait d\u00e9j\u00e0 au t\u00e9l\u00e9phone avec le PRCS.</p><h3>Les secouristes</h3><p>Vers 18h, les ambulanciers du PRCS Yusuf al-Zeino et Ahmed al-Madhoun ont quitt\u00e9 l\'h\u00f4pital Al-Ahli en ambulance pour sauver Hind. Apr\u00e8s leur arriv\u00e9e, on n\'a plus jamais entendu parler d\'eux. Le dernier enregistrement :</p><blockquote>"Salle de contr\u00f4le : Vous voyez la voiture ?<br>Ambulance : Je ne vois rien ici.<br>Salle de contr\u00f4le : Vous avez la sir\u00e8ne et les gyrophares allum\u00e9s ?<br>Ambulance : Juste les lumi\u00e8res, pas la sir\u00e8ne.<br>Ambulance : ... oh la voil\u00e0 !<br>[explosion]"</blockquote><p>Deux semaines apr\u00e8s l\'attaque, les corps en d\u00e9composition de Hind, Layan et leurs proches ont \u00e9t\u00e9 retrouv\u00e9s. \u00c0 quelques m\u00e8tres, l\'ambulance calcin\u00e9e a \u00e9t\u00e9 d\u00e9couverte avec les restes des secouristes Yusuf et Ahmed.</p><h3>Pourquoi Hind Rajab est devenue un symbole</h3><p>L\'histoire de Hind d\u00e9passe sa trag\u00e9die individuelle. Elle symbolise la cruaut\u00e9 syst\u00e9matique \u00e0 laquelle les Palestiniens sont confront\u00e9s. Comme des milliers d\'enfants tu\u00e9s avant et apr\u00e8s elle, l\'histoire de Hind donne une image claire de la punition collective d\u00e9lib\u00e9r\u00e9e qu\'Isra\u00ebl inflige aux civils et du ciblage intentionnel des personnels de sant\u00e9.</p><p>Selon les Conventions de Gen\u00e8ve et le Statut de Rome, Hind, sa famille et les deux secouristes \u00e9taient tous victimes de crimes graves comprenant de multiples violations et crimes de guerre. (Euro-Med Monitor)</p><h2>Ce que nous faisons</h2><p>Nous apportons l\'histoire de Hind Rajab dans les rues des Pays-Bas. Notre campagne est centr\u00e9e autour d\'une r\u00e9plique de la voiture dans laquelle Hind est morte, avec des r\u00e9pliques d\'impacts de balles montrant comment elle a v\u00e9cu ses derniers instants sous le feu des forces isra\u00e9liennes. La voiture est une installation artistique couverte de flyers informatifs.</p><p>Nous parcourons le pays pour sensibiliser et informer. Le savoir est un pouvoir. Nous ne sommes li\u00e9s \u00e0 aucune organisation. Nous sommes des individus qui luttent contre l\'injustice.</p><h3>Dans les m\u00e9dias</h3>';
-i18n.fr.newsLinks=[
-  {name:'Binnenstadskrant Utrecht',desc:'Voiture cribl\u00e9e de balles en centre-ville.',url:'https://www.binnenstadskrantutrecht.nl/nieuws/met-kogels-doorzeefde-auto-in-binnenstad/34'},
-  {name:'NOS',desc:'La police d\'Utrecht saisit une voiture cribl\u00e9e de balles: une \u0153uvre d\'art sur Gaza.',url:'https://nos.nl/artikel/2595547-politie-utrecht-neemt-auto-met-kogelgaten-in-blijkt-gaza-kunstwerk-te-zijn'}
+D.fr.ytLabel='Les derniers mots de Hind Rajab';
+D.fr.story='<h2>Le meurtre de Hind Rajab</h2><p>Le 29 janvier 2024, Hind Rajab, cinq ans, a \u00e9t\u00e9 tu\u00e9e avec sa famille par les Forces de D\u00e9fense Isra\u00e9liennes (FDI) \u00e0 Gaza. Hind a surv\u00e9cu \u00e0 l\'attaque initiale mais est rest\u00e9e bless\u00e9e et seule, entour\u00e9e des corps de ses proches.</p><p>Ce jour-l\u00e0, Hind, ses quatre cousins, sa tante et son oncle tentaient de fuir le quartier de Tel al-Hawa. Alors qu\'ils s\'\u00e9chappaient dans leur Kia Picanto, une unit\u00e9 des FDI a ouvert le feu. La cousine de Hind, Layan Hamada, 15 ans, a appel\u00e9 le Croissant-Rouge Palestinien (PRCS), signalant qu\'ils \u00e9taient vis\u00e9s, qu\'un char approchait et que tout le monde sauf Hind et elle avait \u00e9t\u00e9 tu\u00e9. Quelques secondes plus tard, les cris de Layan se sont arr\u00eat\u00e9s.</p><p>Hind \u00e9tait d\u00e9sormais la seule survivante. Gravement bless\u00e9e, pi\u00e9g\u00e9e dans la voiture.</p><p>Une enqu\u00eate de Forensic Architecture a r\u00e9v\u00e9l\u00e9 que 335 balles avaient \u00e9t\u00e9 tir\u00e9es sur la voiture. L\'\u00e9quipage du char avait une vue d\u00e9gag\u00e9e sur les deux enfants. Le char \u00e9tait \u00e0 13-23 m\u00e8tres. En 6 secondes, 64 tirs sur Layan, 15 ans.</p>{{YT}}<h3>Les secouristes</h3><p>Vers 18h, les ambulanciers Yusuf al-Zeino et Ahmed al-Madhoun sont partis sauver Hind. Apr\u00e8s leur arriv\u00e9e, on n\'a plus entendu parler d\'eux :</p>{{CHAT}}<p>Deux semaines plus tard, les corps de Hind, Layan et leurs proches ont \u00e9t\u00e9 retrouv\u00e9s. L\'ambulance calcin\u00e9e a \u00e9t\u00e9 d\u00e9couverte avec les restes de Yusuf et Ahmed.</p><h3>Pourquoi Hind Rajab est devenue un symbole</h3><p>L\'histoire de Hind d\u00e9passe sa trag\u00e9die. Elle symbolise la cruaut\u00e9 syst\u00e9matique envers les Palestiniens et le ciblage d\u00e9lib\u00e9r\u00e9 des enfants et des soignants par Isra\u00ebl.</p><p>Selon les Conventions de Gen\u00e8ve et le Statut de Rome, tous \u00e9taient victimes de crimes de guerre. (Euro-Med Monitor)</p>{{SOURCE}}<h2>Ce que nous faisons</h2><p>Hind Rajab est l\'histoire que le monde conna\u00eet. Mais elle n\'est pas seule. Elle repr\u00e9sente chaque enfant tu\u00e9 par les forces isra\u00e9liennes. Chaque enfant qui n\'est jamais rentr\u00e9. Chaque enfant dont le nom n\'a jamais fait les nouvelles. Nous refusons que leurs histoires soient oubli\u00e9es.</p><p>C\'est pourquoi nous amenons l\'histoire de Hind dans les rues des Pays-Bas. Au c\u0153ur de notre campagne : une r\u00e9plique de la voiture dans laquelle Hind est morte, perc\u00e9e d\'impacts de balles reproduisant les vrais, pour montrer ce qu\'une fillette de cinq ans a v\u00e9cu sous le feu isra\u00e9lien. L\'installation est couverte de flyers informatifs.</p><p>Nous allons de ville en ville. Sans organisation, sans parti politique. Nous sommes des individus qui croient que l\'injustice ne doit pas rester silencieuse. Le savoir est un pouvoir, et le silence est complicit\u00e9.</p><h3>Dans les m\u00e9dias</h3>';
+D.fr.chatTranscript=chatHTML('Salle de contr\u00f4le','Ambulance','[explosion]','Vous voyez la voiture ?','Je ne vois rien ici.','La sir\u00e8ne et les gyrophares sont allum\u00e9s ?','Juste les lumi\u00e8res, pas la sir\u00e8ne.','... oh la voil\u00e0 !');
+D.fr.newsLinks=[
+  {name:'NOS',desc:'La police d\'Utrecht saisit une voiture cribl\u00e9e de balles : \u0153uvre d\'art sur Gaza.',url:'https://nos.nl/artikel/2595547-politie-utrecht-neemt-auto-met-kogelgaten-in-blijkt-gaza-kunstwerk-te-zijn'},
+  {name:'RTV Utrecht',desc:'R\u00e9plique d\'une voiture cribl\u00e9e de balles \u00e0 Utrecht.',url:'https://www.rtvutrecht.nl/nieuws/3934810/replica-van-doorzeefde-auto-in-utrecht-vraagt-aandacht-voor-situatie-in-gaza'},
+  {name:'Rodi Haarlem',desc:'La fille qui appelait \u00e0 l\'aide : sa voiture est maintenant \u00e0 Haarlem.',url:'https://www.rodi.nl/haarlem/nieuws/466930/het-meisje-dat-om-hulp-riep-haar-auto-staat-nu-in-haarlem'},
+  {name:'Doetinchems Vizier',desc:'335 impacts de balles racontent l\'histoire de Hind.',url:'https://www.doetinchemsvizier.nl/nieuws/maatschappij/535999/335-kogelgaten-vertellen-het-verhaal-van-hind'},
+  {name:'Binnenstadskrant Utrecht',desc:'Voiture cribl\u00e9e de balles en centre-ville.',url:'https://www.binnenstadskrantutrecht.nl/nieuws/met-kogels-doorzeefde-auto-in-binnenstad/34'}
 ];
-i18n.fr.storySource='hindrajabfoundation.org';
+D.fr.storySource='hindrajabfoundation.org';
 
 /* ===== HELPERS ===== */
-const chevronSvg='<svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
+var chevSvg='<svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
+function makeLink(i){var a=document.createElement('a');a.className='link-item';a.href=i.url;a.target='_blank';a.rel='noopener';var h='<div class="link-name">';if(i.urgent)h+='<span class="link-prefix urgent">!</span>';h+=i.name+chevSvg+'</div>';if(i.desc)h+='<div class="link-desc">'+i.desc+'</div>';a.innerHTML=h;return a}
+function makeEmailBtn(i){var b=document.createElement('button');b.className='link-item';b.type='button';var h='<div class="link-name"><span class="link-prefix org">\u2709</span>'+i.label+chevSvg+'</div>';if(i.desc)h+='<div class="link-desc">'+i.desc+'</div>';b.innerHTML=h;b.addEventListener('click',function(){sendEmail(i.action==='violence'?'violence':'chatcontrol')});return b}
+function sendEmail(type){var t=D[lang],to=type==='violence'?recipients:euroRecipients,s=type==='violence'?t.violenceSubject:t.chatControlSubject,b=type==='violence'?t.violenceBody:t.chatControlBody,es=encodeURIComponent(s),eb=encodeURIComponent(b);for(var i=0;i<to.length;i+=25){var c=to.slice(i,i+25).join(','),href='mailto:'+c+'?subject='+es+'&body='+eb;if(i===0)window.location.href=href;else(function(h,d){setTimeout(function(){var a=document.createElement('a');a.href=h;a.style.display='none';document.body.appendChild(a);a.click();a.remove()},d)})(href,i*50)}}
 
-function makeLink(item){
-  var a=document.createElement('a');a.className='link-item';a.href=item.url;a.target='_blank';a.rel='noopener';
-  var html='<div class="link-name">';
-  if(item.urgent)html+='<span class="link-prefix urgent">!</span>';
-  html+=item.name+chevronSvg+'</div>';
-  if(item.desc)html+='<div class="link-desc">'+item.desc+'</div>';
-  a.innerHTML=html;return a;
-}
-function makeEmailButton(item){
-  var btn=document.createElement('button');btn.className='link-item';btn.type='button';
-  var html='<div class="link-name"><span class="link-prefix org">\u2709</span>'+item.label+chevronSvg+'</div>';
-  if(item.desc)html+='<div class="link-desc">'+item.desc+'</div>';
-  btn.innerHTML=html;
-  btn.addEventListener('click',function(){sendEmail(item.action==='violence'?'violence':'chatcontrol')});
-  return btn;
-}
-function sendEmail(type){
-  var t=i18n[lang];
-  var to=type==='violence'?recipients:euroRecipients;
-  var subject=type==='violence'?t.violenceSubject:t.chatControlSubject;
-  var body=type==='violence'?t.violenceBody:t.chatControlBody;
-  var es=encodeURIComponent(subject),eb=encodeURIComponent(body);
-  for(var i=0;i<to.length;i+=25){
-    var chunk=to.slice(i,i+25).join(',');
-    var href='mailto:'+chunk+'?subject='+es+'&body='+eb;
-    if(i===0){window.location.href=href}
-    else{(function(h,d){setTimeout(function(){var a=document.createElement('a');a.href=h;a.style.display='none';document.body.appendChild(a);a.click();a.remove()},d)})(href,i*50)}
-  }
-}
+/* ===== VIEW NAV ===== */
+function showView(id){document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active')});document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+document.querySelectorAll('[data-view]').forEach(function(el){el.addEventListener('click',function(){showView(el.dataset.view)})});
 
-/* ===== VIEW NAVIGATION ===== */
-function showView(id){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active')});
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-document.querySelectorAll('[data-view]').forEach(function(el){
-  el.addEventListener('click',function(){showView(el.dataset.view)});
+/* ===== SOURCES ACCORDION ===== */
+document.getElementById('sources-trigger').addEventListener('click',function(){
+  var acc=document.getElementById('sources-accordion'),panel=document.getElementById('sources-panel');
+  if(acc.classList.contains('open')){acc.classList.remove('open');panel.style.maxHeight=null}
+  else{acc.classList.add('open');panel.style.maxHeight=panel.scrollHeight+'px'}
 });
 
-/* ===== LANGUAGE ===== */
+/* ===== SHARE ===== */
+document.getElementById('share-btn').addEventListener('click',function(){
+  var t=D[lang];
+  if(navigator.share){navigator.share({title:'Speak Up! \U0001f349',url:window.location.href}).catch(function(){})}
+  else{navigator.clipboard.writeText(window.location.href).then(function(){var toast=document.getElementById('share-toast');toast.textContent=t.shareCopied;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},2000)}).catch(function(){})}
+});
+
+/* ===== RENDER ===== */
 var lang='nl';
 function render(){
-  var t=i18n[lang];
+  var t=D[lang];
   document.documentElement.lang=lang;
   document.getElementById('hero-label').textContent=t.heroLabel;
   document.getElementById('email-label').textContent=t.emailLabel;
@@ -326,30 +350,24 @@ function render(){
   document.getElementById('email-desc').textContent=t.emailDesc;
   document.getElementById('donate-title').textContent=t.donateTitle;
   document.getElementById('donate-desc').textContent=t.donateDesc;
-  document.getElementById('sources-title').textContent=t.sourcesTitle;
-  document.getElementById('sources-desc').textContent=t.sourcesDesc;
-
   var ec=document.getElementById('email-links');ec.innerHTML='';
-  t.emailActions.forEach(function(item){ec.appendChild(makeEmailButton(item))});
+  t.emailActions.forEach(function(i){ec.appendChild(makeEmailBtn(i))});
   var dc=document.getElementById('donate-links');dc.innerHTML='';
-  t.donations.forEach(function(item){dc.appendChild(makeLink(item))});
+  t.donations.forEach(function(i){dc.appendChild(makeLink(i))});
   var sc=document.getElementById('sources-links');sc.innerHTML='';
-  t.sources.forEach(function(item){sc.appendChild(makeLink(item))});
+  t.sources.forEach(function(i){sc.appendChild(makeLink(i))});
+  // Recalc accordion if open
+  var acc=document.getElementById('sources-accordion'),panel=document.getElementById('sources-panel');
+  if(acc.classList.contains('open'))panel.style.maxHeight=panel.scrollHeight+'px';
 
-  var storyHtml=t.story;
-  t.newsLinks.forEach(function(nl){
-    storyHtml+='<a class="link-item" href="'+nl.url+'" target="_blank" rel="noopener"><div class="link-name">'+nl.name+chevronSvg+'</div><div class="link-desc">'+nl.desc+'</div></a>';
-  });
-  storyHtml+='<div class="story-source">Bron: <a href="https://hindrajabfoundation.org" target="_blank" rel="noopener">'+t.storySource+'</a></div>';
-  document.getElementById('story-content').innerHTML=storyHtml;
+  // Story
+  var ytBtn='<a href="https://www.youtube.com/watch?v=4-HyIiyNQ9E" target="_blank" rel="noopener" class="yt-btn">'+ytSvg+t.ytLabel+'</a>';
+  var srcAttr='<div class="story-source">Bron: <a href="https://hindrajabfoundation.org" target="_blank" rel="noopener">'+t.storySource+'</a></div>';
+  var html=t.story.replace('{{YT}}',ytBtn).replace('{{CHAT}}',t.chatTranscript).replace('{{SOURCE}}',srcAttr);
+  t.newsLinks.forEach(function(n){html+='<a class="link-item" href="'+n.url+'" target="_blank" rel="noopener"><div class="link-name">'+n.name+chevSvg+'</div><div class="link-desc">'+n.desc+'</div></a>'});
+  document.getElementById('story-content').innerHTML=html;
 }
-
-document.querySelectorAll('.lang-btn').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');lang=btn.dataset.lang;render();
-  });
-});
+document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.lang-btn').forEach(function(x){x.classList.remove('active')});b.classList.add('active');lang=b.dataset.lang;render()})});
 render();
 
 </script>
